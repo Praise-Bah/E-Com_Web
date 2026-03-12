@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GlobalMart ERD</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F7F8FA;
+    color: #1A2332;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: #1B2B4B;
+    color: #fff;
+    padding: 22px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #2E6BE6;
+  }
+  .page-header .brand { display: flex; align-items: center; gap: 14px; }
+  .page-header .logo {
+    width: 38px; height: 38px;
+    background: #2E6BE6;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 700; color: #fff;
+  }
+  .page-header h1 { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.01em; }
+  .page-header p  { font-size: 0.72rem; color: #8BA3C7; margin-top: 2px; }
+  .header-meta { text-align: right; font-size: 0.72rem; color: #8BA3C7; line-height: 1.8; }
+  .header-meta strong { color: #fff; }
+
+  /* ── LEGEND ── */
+  .legend-bar {
+    background: #fff;
+    border-bottom: 1px solid #E2E7EF;
+    padding: 10px 40px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+  .legend-bar span { font-size: 0.72rem; color: #5A6A7E; display: flex; align-items: center; gap: 7px; }
+  .legend-bar .dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .legend-bar .line-sample { width: 28px; height: 2px; }
+  .legend-bar .label { font-weight: 600; font-size: 0.68rem; padding: 1px 5px; border-radius: 3px; }
+  .pk-badge  { background: #FFF3CD; color: #856404; border: 1px solid #FFC107; }
+  .fk-badge  { background: #D1E7FF; color: #084298; border: 1px solid #86B7FE; }
+  .sep { width: 1px; height: 20px; background: #E2E7EF; }
+
+  /* ── CANVAS ── */
+  .canvas-wrap {
+    position: relative;
+    padding: 40px;
+    overflow: auto;
+    min-height: calc(100vh - 120px);
+  }
+
+  .erd-canvas {
+    position: relative;
+    width: 1060px;
+    height: 860px;
+    margin: 0 auto;
+  }
+
+  /* ── SVG ── */
+  .rel-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── ZONE BACKGROUNDS ── */
+  .zone {
+    position: absolute;
+    border-radius: 10px;
+    border: 1.5px dashed;
+    z-index: 0;
+  }
+  .zone-label {
+    position: absolute;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    z-index: 2;
+  }
+
+  /* ── ENTITY CARD ── */
+  .entity {
+    position: absolute;
+    background: #fff;
+    border-radius: 8px;
+    border: 1.5px solid #D5DCE8;
+    min-width: 210px;
+    z-index: 5;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: box-shadow 0.15s, transform 0.15s;
+    overflow: hidden;
+  }
+  .entity:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+    transform: translateY(-2px);
+    z-index: 20;
+  }
+
+  .entity-header {
+    padding: 9px 13px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .entity-header .tbl-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .entity-header .tbl-icon {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .entity-divider { height: 1px; background: #E8ECF2; }
+
+  .attr-row {
+    padding: 5px 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #F1F4F9;
+    font-size: 0.71rem;
+  }
+  .attr-row:last-child { border-bottom: none; }
+  .attr-row:hover { background: #F7F9FF; }
+
+  .badge {
+    font-size: 0.58rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+  .badge-pk { background: #FFF3CD; color: #856404; border: 1px solid #FFC107; }
+  .badge-fk { background: #D1E7FF; color: #084298; border: 1px solid #86B7FE; }
+  .badge-at { background: #F3F5F7; color: #8A98AB; border: 1px solid #E2E7EF; }
+
+  .attr-name { color: #1A2332; font-weight: 500; flex: 1; }
+  .attr-type { color: #8A98AB; font-size: 0.65rem; white-space: nowrap; }
+  .attr-nn   { color: #D9534F; font-size: 0.6rem; margin-left: 2px; }
+
+  /* ── ENTITY COLOR THEMES ── */
+  /* Customer: blue */
+  .t-customer .entity-header { background: #1B2B4B; }
+  .t-customer .tbl-name      { color: #fff; }
+  .t-customer.entity          { border-color: #2E6BE6; }
+
+  /* Product: teal */
+  .t-product .entity-header  { background: #0F4C5C; }
+  .t-product .tbl-name       { color: #fff; }
+  .t-product.entity           { border-color: #0E9BB5; }
+
+  /* Currency: green */
+  .t-currency .entity-header { background: #064E3B; }
+  .t-currency .tbl-name      { color: #fff; }
+  .t-currency.entity          { border-color: #059669; }
+
+  /* Warehouse: amber */
+  .t-warehouse .entity-header { background: #451A03; }
+  .t-warehouse .tbl-name      { color: #fff; }
+  .t-warehouse.entity          { border-color: #D97706; }
+
+  /* Order: purple */
+  .t-order .entity-header    { background: #2D1B69; }
+  .t-order .tbl-name         { color: #fff; }
+  .t-order.entity              { border-color: #7C3AED; }
+
+  /* ── CARDINALITY TOOLTIP ── */
+  .card-tip {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    fill: #5A6A7E;
+    letter-spacing: 0.03em;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="brand">
+    <div class="logo">G</div>
+    <div>
+      <h1>GlobalMart — Entity Relationship Diagram</h1>
+      <p>ICT 3212: Advanced Database Systems · Week 1, Session 1</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <div><strong>Course:</strong> ICT 3212</div>
+    <div><strong>Instructor:</strong> Engr. Daniel MOUNE</div>
+    <div><strong>Version:</strong> 1.0 · February 2026</div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <span><span class="label pk-badge">PK</span> Primary Key</span>
+  <span><span class="label fk-badge">FK</span> Foreign Key</span>
+  <div class="sep"></div>
+  <span>
+    <svg width="28" height="12"><line x1="0" y1="6" x2="28" y2="6" stroke="#1B2B4B" stroke-width="2"/></svg>
+    1:N One-to-Many
+  </span>
+  <span>
+    <svg width="28" height="12"><line x1="0" y1="6" x2="28" y2="6" stroke="#1B2B4B" stroke-width="2" stroke-dasharray="5,3"/></svg>
+    M:N Many-to-Many (via junction)
+  </span>
+  <div class="sep"></div>
+  <span><span class="dot" style="background:#2E6BE6"></span>Customer Domain</span>
+  <span><span class="dot" style="background:#0E9BB5"></span>Product Domain</span>
+  <span><span class="dot" style="background:#059669"></span>Currency Domain</span>
+  <span><span class="dot" style="background:#D97706"></span>Warehouse Domain</span>
+  <span><span class="dot" style="background:#7C3AED"></span>Order Domain</span>
+</div>
+
+<!-- CANVAS -->
+<div class="canvas-wrap">
+<div class="erd-canvas" id="canvas">
+
+  <!-- SVG LINES -->
+  <svg class="rel-svg" id="svg"></svg>
+
+  <!-- ─── ZONE BACKGROUNDS ─── -->
+  <!-- Customer zone -->
+  <div class="zone" style="left:16px;top:16px;width:228px;height:360px;border-color:#2E6BE6;background:rgba(46,107,230,0.03)"></div>
+  <div class="zone-label" style="left:24px;top:24px;color:#2E6BE6">Customer</div>
+
+  <!-- Product zone -->
+  <div class="zone" style="left:268px;top:16px;width:248px;height:470px;border-color:#0E9BB5;background:rgba(14,155,181,0.03)"></div>
+  <div class="zone-label" style="left:276px;top:24px;color:#0E9BB5">Product</div>
+
+  <!-- Currency zone -->
+  <div class="zone" style="left:550px;top:16px;width:238px;height:290px;border-color:#059669;background:rgba(5,150,105,0.03)"></div>
+  <div class="zone-label" style="left:558px;top:24px;color:#059669">Currency</div>
+
+  <!-- Warehouse zone -->
+  <div class="zone" style="left:550px;top:330px;width:238px;height:350px;border-color:#D97706;background:rgba(217,119,6,0.03)"></div>
+  <div class="zone-label" style="left:558px;top:338px;color:#D97706">Warehouse</div>
+
+  <!-- Order zone -->
+  <div class="zone" style="left:16px;top:400px;width:510px;height:444px;border-color:#7C3AED;background:rgba(124,58,237,0.03)"></div>
+  <div class="zone-label" style="left:24px;top:408px;color:#7C3AED">Order</div>
+
+  <!-- ─── ENTITIES ─── -->
+
+  <!-- CUSTOMER_TIERS -->
+  <div class="entity t-customer" id="e-tiers" style="left:34px;top:48px;min-width:195px">
+    <div class="entity-header"><span class="tbl-icon">🏅</span><span class="tbl-name">Customer_Tiers</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">tier_id</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">tier_name</span><span class="attr-type">VARCHAR(20)</span><span class="attr-nn">●</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">discount_pct</span><span class="attr-type">DECIMAL(5,2)</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">min_lifetime_value</span><span class="attr-type">DEC(12,2)</span></div>
+  </div>
+
+  <!-- CUSTOMERS -->
+  <div class="entity t-customer" id="e-customers" style="left:34px;top:210px;min-width:195px">
+    <div class="entity-header"><span class="tbl-icon">👤</span><span class="tbl-name">Customers</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">customer_id</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">name</span><span class="attr-type">VARCHAR(100)</span><span class="attr-nn">●</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">email</span><span class="attr-type">VARCHAR(255)</span><span class="attr-nn">●</span></div>
+    <div class="attr-row"><span class="badge badge-fk">FK</span><span class="attr-name">tier_id</span><span class="attr-type">→ Tiers</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">lifetime_value</span><span class="attr-type">DEC(12,2)</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">registered_date</span><span class="attr-type">DATE</span></div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="entity t-product" id="e-products" style="left:284px;top:48px;min-width:215px">
+    <div class="entity-header"><span class="tbl-icon">🛍</span><span class="tbl-name">Products</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">product_id</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">product_name</span><span class="attr-type">VARCHAR(200)</span><span class="attr-nn">●</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">base_price</span><span class="attr-type">DEC(12,2)</span><span class="attr-nn">●</span></div>
+    <div class="attr-row"><span class="badge badge-fk">FK</span><span class="attr-name">currency_code</span><span class="attr-type">→ Currencies</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">category</span><span class="attr-type">VARCHAR(50)</span></div>
+  </div>
+
+  <!-- ATTRIBUTES -->
+  <div class="entity t-product" id="e-attributes" style="left:284px;top:242px;min-width:215px">
+    <div class="entity-header"><span class="tbl-icon">🏷</span><span class="tbl-name">Attributes</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">attribute_id</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">attribute_name</span><span class="attr-type">VARCHAR(50)</span><span class="attr-nn">●</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">data_type</span><span class="attr-type">VARCHAR(20)</span></div>
+  </div>
+
+  <!-- PRODUCT_ATTRIBUTES (junction) -->
+  <div class="entity t-product" id="e-prodattr" style="left:284px;top:380px;min-width:215px">
+    <div class="entity-header"><span class="tbl-icon">⚡</span><span class="tbl-name">Product_Attributes</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">product_id</span><span class="attr-type">INT (FK)</span></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">attribute_id</span><span class="attr-type">INT (FK)</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">value</span><span class="attr-type">VARCHAR(100)</span><span class="attr-nn">●</span></div>
+  </div>
+
+  <!-- CURRENCIES -->
+  <div class="entity t-currency" id="e-currencies" style="left:567px;top:48px;min-width:205px">
+    <div class="entity-header"><span class="tbl-icon">💲</span><span class="tbl-name">Currencies</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">currency_code</span><span class="attr-type">CHAR(3)</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">currency_name</span><span class="attr-type">VARCHAR(50)</span><span class="attr-nn">●</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">symbol</span><span class="attr-type">VARCHAR(10)</span></div>
+  </div>
+
+  <!-- EXCHANGE_RATES -->
+  <div class="entity t-currency" id="e-exrates" style="left:567px;top:198px;min-width:205px">
+    <div class="entity-header"><span class="tbl-icon">📈</span><span class="tbl-name">Exchange_Rates</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">from_currency</span><span class="attr-type">CHAR(3) (FK)</span></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">to_currency</span><span class="attr-type">CHAR(3) (FK)</span></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">effective_date</span><span class="attr-type">DATE</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">rate</span><span class="attr-type">DECIMAL(18,6)</span><span class="attr-nn">●</span></div>
+  </div>
+
+  <!-- WAREHOUSES -->
+  <div class="entity t-warehouse" id="e-warehouses" style="left:567px;top:356px;min-width:205px">
+    <div class="entity-header"><span class="tbl-icon">🏭</span><span class="tbl-name">Warehouses</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">warehouse_id</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">location</span><span class="attr-type">VARCHAR(100)</span><span class="attr-nn">●</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">capacity</span><span class="attr-type">INT</span></div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div class="entity t-warehouse" id="e-inventory" style="left:567px;top:510px;min-width:205px">
+    <div class="entity-header"><span class="tbl-icon">📦</span><span class="tbl-name">Inventory</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">inventory_id</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-fk">FK</span><span class="attr-name">product_id</span><span class="attr-type">→ Products</span></div>
+    <div class="attr-row"><span class="badge badge-fk">FK</span><span class="attr-name">warehouse_id</span><span class="attr-type">→ Warehouses</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">qty_on_hand</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">reorder_threshold</span><span class="attr-type">INT</span></div>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="entity t-order" id="e-orders" style="left:34px;top:430px;min-width:195px">
+    <div class="entity-header"><span class="tbl-icon">🧾</span><span class="tbl-name">Orders</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">order_id</span><span class="attr-type">INT (SEQ)</span></div>
+    <div class="attr-row"><span class="badge badge-fk">FK</span><span class="attr-name">customer_id</span><span class="attr-type">→ Customers</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">order_date</span><span class="attr-type">TIMESTAMP</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">total_amount</span><span class="attr-type">DEC(12,2)</span></div>
+    <div class="attr-row"><span class="badge badge-fk">FK</span><span class="attr-name">currency_code</span><span class="attr-type">→ Currencies</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">status</span><span class="attr-type">VARCHAR(20)</span></div>
+  </div>
+
+  <!-- ORDER_ITEMS -->
+  <div class="entity t-order" id="e-orderitems" style="left:284px;top:610px;min-width:215px">
+    <div class="entity-header"><span class="tbl-icon">📋</span><span class="tbl-name">Order_Items</span></div>
+    <div class="entity-divider"></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">order_id</span><span class="attr-type">INT (FK)</span></div>
+    <div class="attr-row"><span class="badge badge-pk">PK</span><span class="attr-name">line_number</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-fk">FK</span><span class="attr-name">product_id</span><span class="attr-type">→ Products</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">quantity</span><span class="attr-type">INT</span></div>
+    <div class="attr-row"><span class="badge badge-at"> </span><span class="attr-name">unit_price</span><span class="attr-type">DEC(12,2)</span></div>
+  </div>
+
+</div><!-- /erd-canvas -->
+</div><!-- /canvas-wrap -->
+
+<script>
+function rect(id) {
+  const el = document.getElementById(id);
+  const canvas = document.getElementById('canvas');
+  const er = el.getBoundingClientRect();
+  const cr = canvas.getBoundingClientRect();
+  return {
+    l: er.left - cr.left, r: er.right - cr.left,
+    t: er.top  - cr.top,  b: er.bottom - cr.top,
+    cx: er.left - cr.left + er.width/2,
+    cy: er.top  - cr.top  + er.height/2,
+    w: er.width, h: er.height
+  };
+}
+
+function addLine(svg, x1,y1, x2,y2, color, dash, c1, c2) {
+  const mx = (x1+x2)/2, my = (y1+y2)/2;
+  const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+  // Smooth bezier
+  let cx1=x1, cy1=y1, cx2=x2, cy2=y2;
+  if (Math.abs(x2-x1) > Math.abs(y2-y1)) { cx1=mx; cx2=mx; }
+  else { cy1=my; cy2=my; }
+  p.setAttribute('d', `M${x1} ${y1} C${cx1} ${cy1} ${cx2} ${cy2} ${x2} ${y2}`);
+  p.setAttribute('stroke', color);
+  p.setAttribute('stroke-width','2');
+  p.setAttribute('fill','none');
+  p.setAttribute('opacity','0.75');
+  if(dash) p.setAttribute('stroke-dasharray','7,4');
+  svg.appendChild(p);
+
+  // Arrow head at end
+  const angle = Math.atan2(y2-cy2, x2-cx2);
+  const size = 7;
+  const ax1 = x2 - size*Math.cos(angle-0.4);
+  const ay1 = y2 - size*Math.sin(angle-0.4);
+  const ax2 = x2 - size*Math.cos(angle+0.4);
+  const ay2 = y2 - size*Math.sin(angle+0.4);
+  const arrow = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+  arrow.setAttribute('points', `${x2},${y2} ${ax1},${ay1} ${ax2},${ay2}`);
+  arrow.setAttribute('fill', color);
+  arrow.setAttribute('opacity','0.75');
+  svg.appendChild(arrow);
+
+  const addT = (x,y,txt) => {
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',x); t.setAttribute('y',y);
+    t.setAttribute('class','card-tip'); t.setAttribute('text-anchor','middle');
+    t.textContent = txt; svg.appendChild(t);
+  };
+  if(c1) addT(x1+(x2-x1)*0.1 + (y2>y1?-10:10), y1+(y2-y1)*0.1 + (x2>x1?-8:8), c1);
+  if(c2) addT(x1+(x2-x1)*0.9 + (y1>y2?-10:10), y1+(y2-y1)*0.9 + (x1>x2?-8:8), c2);
+}
+
+// connect two entities with auto side-detection
+function conn(svg, id1, id2, color, dash, c1, c2) {
+  const a = rect(id1), b = rect(id2);
+  let x1,y1,x2,y2;
+  const dx = b.cx - a.cx, dy = b.cy - a.cy;
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    // horizontal
+    if (dx > 0) { x1=a.r; y1=a.cy; x2=b.l; y2=b.cy; }
+    else         { x1=a.l; y1=a.cy; x2=b.r; y2=b.cy; }
+  } else {
+    // vertical
+    if (dy > 0) { x1=a.cx; y1=a.b; x2=b.cx; y2=b.t; }
+    else         { x1=a.cx; y1=a.t; x2=b.cx; y2=b.b; }
+  }
+  addLine(svg, x1,y1, x2,y2, color, dash, c1, c2);
+}
+
+window.addEventListener('load', () => {
+  const svg = document.getElementById('svg');
+  const canvas = document.getElementById('canvas');
+  svg.setAttribute('width', canvas.offsetWidth);
+  svg.setAttribute('height', canvas.offsetHeight);
+
+  const blue   = '#2E6BE6';
+  const teal   = '#0E9BB5';
+  const green  = '#059669';
+  const amber  = '#D97706';
+  const purple = '#7C3AED';
+
+  conn(svg,'e-tiers',      'e-customers',  blue,   false, '1','N');
+  conn(svg,'e-customers',  'e-orders',     blue,   false, '1','N');
+  conn(svg,'e-orders',     'e-orderitems', purple, false, '1','N');
+  conn(svg,'e-products',   'e-orderitems', teal,   false, '1','N');
+  conn(svg,'e-products',   'e-prodattr',   teal,   false, '1','N');
+  conn(svg,'e-attributes', 'e-prodattr',   teal,   true,  '1','N');
+  conn(svg,'e-currencies', 'e-products',   green,  false, '1','N');
+  conn(svg,'e-currencies', 'e-exrates',    green,  false, '1','N');
+  conn(svg,'e-currencies', 'e-orders',     green,  true,  '1','N');
+  conn(svg,'e-warehouses', 'e-inventory',  amber,  false, '1','N');
+  conn(svg,'e-products',   'e-inventory',  amber,  true,  '1','N');
+});
+</script>
+</body>
+</html>
