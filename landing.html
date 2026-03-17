@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart - Your Ultimate Shopping Destination</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF9900;
+            --primary-dark: #E88B00;
+            --secondary: #232F3E;
+            --accent: #37475A;
+            --text-dark: #0F1111;
+            --text-light: #565959;
+            --bg-light: #F7F8FA;
+            --white: #FFFFFF;
+            --border: #D5D9D9;
+            --success: #067D62;
+            --blue: #007185;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            background: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav-top {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .logo-icon {
+            background: var(--primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 800px;
+            display: flex;
+            height: 42px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            padding: 0 1rem;
+            font-size: 0.95rem;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: var(--primary);
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+            transition: background 0.2s;
+        }
+
+        .search-bar button:hover {
+            background: var(--primary-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-badge {
+            background: var(--primary);
+            color: var(--text-dark);
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Sub Navigation */
+        .nav-sub {
+            background: var(--accent);
+            padding: 0.7rem 0;
+        }
+
+        .nav-sub-links {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+        }
+
+        .nav-sub-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: color 0.2s;
+        }
+
+        .nav-sub-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            opacity: 0.95;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--text-dark);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 153, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .hero-image {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 500px;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Categories Section */
+        .categories {
+            padding: 4rem 0;
+            background: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover .category-image img {
+            transform: scale(1.1);
+        }
+
+        .category-info {
+            padding: 1.5rem;
+        }
+
+        .category-info h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .category-info p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-link {
+            color: var(--blue);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* Featured Products */
+        .featured-products {
+            padding: 5rem 0;
+            background: var(--white);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            background: var(--bg-light);
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--primary);
+            color: var(--text-dark);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-category {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--text-dark);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .stars {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .rating-count {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-current {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .price-original {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            background: var(--primary);
+            color: var(--text-dark);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-add-cart:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-wishlist {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-wishlist:hover {
+            background: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* Deals Section */
+        .deals-banner {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 5rem 0;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .deals-banner h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .deals-banner p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .timer-item {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            min-width: 100px;
+        }
+
+        .timer-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .timer-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 0;
+            background: var(--bg-light);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-author h4 {
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .testimonial-tier {
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .testimonial-text {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .testimonial-rating {
+            color: var(--primary);
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-image {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+
+            .timer {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-top">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">G</div>
+                <span>GlobalMart</span>
+            </a>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search for products, brands, and more...">
+                <button>
+                    <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="nav-links">
+                <a href="#" class="nav-link">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    Account
+                </a>
+                <a href="#" class="nav-link">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    Wishlist
+                </a>
+                <a href="#" class="nav-link">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                    </svg>
+                    Cart
+                    <span class="cart-badge">3</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="nav-sub">
+        <div class="nav-sub-links">
+            <a href="#">Electronics</a>
+            <a href="#">Fashion</a>
+            <a href="#">Home & Kitchen</a>
+            <a href="#">Beauty</a>
+            <a href="#">Sports</a>
+            <a href="#">Books</a>
+            <a href="#">Toys</a>
+            <a href="#">Automotive</a>
+            <a href="#">Health</a>
+            <a href="#">Grocery</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <h1>Discover Amazing<br>Products Every Day</h1>
+            <p>Shop millions of products at unbeatable prices. Fast shipping, secure payments, and exceptional customer service.</p>
+            <div class="hero-cta">
+                <a href="#products" class="btn btn-primary">Shop Now</a>
+                <a href="#categories" class="btn btn-secondary">Browse Categories</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&h=800&fit=crop" alt="Shopping">
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>Shop by Category</h2>
+                <p>Explore our wide range of product categories</p>
+            </div>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=600&h=400&fit=crop" alt="Electronics">
+                    </div>
+                    <div class="category-info">
+                        <h3>Electronics</h3>
+                        <p>Latest gadgets and tech accessories</p>
+                        <a href="#" class="category-link">Shop Now →</a>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&h=400&fit=crop" alt="Fashion">
+                    </div>
+                    <div class="category-info">
+                        <h3>Fashion</h3>
+                        <p>Trending styles for every occasion</p>
+                        <a href="#" class="category-link">Shop Now →</a>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=600&h=400&fit=crop" alt="Home & Kitchen">
+                    </div>
+                    <div class="category-info">
+                        <h3>Home & Kitchen</h3>
+                        <p>Everything for your perfect home</p>
+                        <a href="#" class="category-link">Shop Now →</a>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=400&fit=crop" alt="Beauty">
+                    </div>
+                    <div class="category-info">
+                        <h3>Beauty & Personal Care</h3>
+                        <p>Premium beauty products</p>
+                        <a href="#" class="category-link">Shop Now →</a>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop" alt="Sports">
+                    </div>
+                    <div class="category-info">
+                        <h3>Sports & Outdoors</h3>
+                        <p>Gear up for your adventures</p>
+                        <a href="#" class="category-link">Shop Now →</a>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=400&fit=crop" alt="Books">
+                    </div>
+                    <div class="category-info">
+                        <h3>Books & Media</h3>
+                        <p>Discover your next great read</p>
+                        <a href="#" class="category-link">Shop Now →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Products</h2>
+                <p>Handpicked items just for you</p>
+            </div>
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop" alt="Wireless Headphones">
+                        <span class="product-badge">Best Seller</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Electronics</div>
+                        <h3 class="product-title">Premium Wireless Headphones with Noise Cancellation</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(2,847)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">$149.99</span>
+                            <span class="price-original">$249.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-wishlist">♡</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop" alt="Smart Watch">
+                        <span class="product-badge">New</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Electronics</div>
+                        <h3 class="product-title">Advanced Fitness Smart Watch with Heart Rate Monitor</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-count">(1,523)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">$299.99</span>
+                            <span class="price-original">$399.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-wishlist">♡</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&h=600&fit=crop" alt="Sneakers">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Fashion</div>
+                        <h3 class="product-title">Premium Running Sneakers - Lightweight & Comfortable</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(3,241)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">$89.99</span>
+                            <span class="price-original">$129.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-wishlist">♡</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&h=600&fit=crop" alt="Perfume">
+                        <span class="product-badge">-40%</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Beauty</div>
+                        <h3 class="product-title">Luxury Eau de Parfum - Long Lasting Fragrance</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(892)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">$59.99</span>
+                            <span class="price-original">$99.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-wishlist">♡</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1585298723682-7115561c51b7?w=600&h=600&fit=crop" alt="Coffee Maker">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Home & Kitchen</div>
+                        <h3 class="product-title">Professional Espresso Coffee Maker Machine</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-count">(1,156)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">$179.99</span>
+                            <span class="price-original">$249.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-wishlist">♡</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=600&h=600&fit=crop" alt="Book">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Books</div>
+                        <h3 class="product-title">Bestselling Novel - Limited Edition Hardcover</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(4,523)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">$24.99</span>
+                            <span class="price-original">$34.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-wishlist">♡</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop" alt="Sunglasses">
+                        <span class="product-badge">Trending</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Fashion</div>
+                        <h3 class="product-title">Designer Polarized Sunglasses - UV Protection</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(2,134)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">$79.99</span>
+                            <span class="price-original">$129.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-wishlist">♡</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=600&fit=crop" alt="Yoga Mat">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Sports</div>
+                        <h3 class="product-title">Premium Non-Slip Yoga Mat with Carrying Strap</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-count">(987)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">$39.99</span>
+                            <span class="price-original">$59.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-wishlist">♡</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deals Banner -->
+    <section class="deals-banner">
+        <div class="container">
+            <h2>⚡ Flash Sale Ends Soon!</h2>
+            <p>Don't miss out on incredible deals - limited time only</p>
+            <div class="timer">
+                <div class="timer-item">
+                    <span class="timer-value">12</span>
+                    <span class="timer-label">Hours</span>
+                </div>
+                <div class="timer-item">
+                    <span class="timer-value">34</span>
+                    <span class="timer-label">Minutes</span>
+                </div>
+                <div class="timer-item">
+                    <span class="timer-value">56</span>
+                    <span class="timer-label">Seconds</span>
+                </div>
+            </div>
+            <a href="#products" class="btn btn-primary">Shop Flash Deals</a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Customers Say</h2>
+                <p>Join millions of satisfied shoppers worldwide</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" alt="Customer">
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>Sarah Johnson</h4>
+                            <div class="testimonial-tier">Gold Member</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Absolutely love shopping here! The product quality is outstanding and delivery is always on time. The customer service team is incredibly helpful."</p>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop" alt="Customer">
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>Michael Chen</h4>
+                            <div class="testimonial-tier">Platinum Member</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Best online shopping experience I've had. Great prices, amazing selection, and the loyalty rewards program is fantastic. Highly recommended!"</p>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop" alt="Customer">
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>Emily Rodriguez</h4>
+                            <div class="testimonial-tier">Silver Member</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"I've been shopping here for years and they never disappoint. The website is easy to use and I always find exactly what I'm looking for."</p>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About GlobalMart</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press Center</a></li>
+                        <li><a href="#">Investor Relations</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Order History</a></li>
+                        <li><a href="#">Wishlist</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                        <li><a href="#">Deals & Offers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">YouTube</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 GlobalMart. All rights reserved. | Privacy Policy | Terms of Service | Cookie Settings</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Timer countdown
+        function updateTimer() {
+            const timerElements = document.querySelectorAll('.timer-value');
+            if (timerElements.length >= 3) {
+                let hours = parseInt(timerElements[0].textContent);
+                let minutes = parseInt(timerElements[1].textContent);
+                let seconds = parseInt(timerElements[2].textContent);
+
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                        if (hours < 0) hours = 23;
+                    }
+                }
+
+                timerElements[0].textContent = hours.toString().padStart(2, '0');
+                timerElements[1].textContent = minutes.toString().padStart(2, '0');
+                timerElements[2].textContent = seconds.toString().padStart(2, '0');
+            }
+        }
+
+        setInterval(updateTimer, 1000);
+
+        // Add to cart animation
+        document.querySelectorAll('.btn-add-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const originalText = this.textContent;
+                this.textContent = '✓ Added!';
+                this.style.background = '#067D62';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = '';
+                }, 1500);
+            });
+        });
+
+        // Wishlist toggle
+        document.querySelectorAll('.btn-wishlist').forEach(button => {
+            button.addEventListener('click', function() {
+                this.textContent = this.textContent === '♡' ? '♥' : '♡';
+                this.style.color = this.textContent === '♥' ? '#FF9900' : '';
+            });
+        });
+    </script>
+</body>
+</html>
