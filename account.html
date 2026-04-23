@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart | Your Account</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+</head>
+<body class="gm-page">
+    <header class="gm-header">
+        <div class="gm-header-top">
+            <div>
+                <a href="index.html" class="gm-logo-link">
+                    <span class="gm-logo-icon">GM</span>
+                    <span class="gm-logo-text">GlobalMart</span>
+                </a>
+            </div>
+            <div class="gm-header-location">
+                <div class="gm-header-location-small">Deliver to</div>
+                <div class="gm-header-location-main">
+                    <img class="gm-icon gm-icon-sm" src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Location icon">
+                    <span>Select your address</span>
+                </div>
+            </div>
+            <form class="gm-search" action="#" method="get">
+                <select class="gm-search-category" aria-label="Search in">
+                    <option value="all">All</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="home">Home &amp; Kitchen</option>
+                    <option value="beauty">Beauty</option>
+                    <option value="sports">Sports</option>
+                </select>
+                <input class="gm-search-input" name="q" type="text" placeholder="Search GlobalMart" aria-label="Search">
+                <button class="gm-search-button" type="submit" aria-label="Search">
+                    <svg width="20" height="20" fill="white" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                    </svg>
+                </button>
+            </form>
+            <div class="gm-header-item gm-header-account" onclick="window.location.href='login.html'">
+                <span class="gm-header-item-small">Hello, sign in</span>
+                <span class="gm-header-item-main">
+                    <img class="gm-icon gm-icon-sm" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Account icon">
+                    <span>Account &amp; Lists</span>
+                </span>
+            </div>
+            <div class="gm-header-item" onclick="window.location.href='orders.html'">
+                <span class="gm-header-item-small">Returns</span>
+                <span class="gm-header-item-main">
+                    <img class="gm-icon gm-icon-sm" src="https://cdn-icons-png.flaticon.com/512/8106/8106794.png" alt="Orders icon">
+                    <span>&amp; Orders</span>
+                </span>
+            </div>
+            <a href="cart.html" class="gm-header-cart">
+                <span class="gm-cart-count">0</span>
+                <img class="gm-icon gm-icon-md" src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart icon">
+                <span class="gm-header-item-main">Cart</span>
+            </a>
+        </div>
+        <div class="gm-header-bottom">
+            <div class="gm-header-bottom-inner">
+                <a href="#" class="gm-nav-link">All</a>
+                <a href="#" class="gm-nav-link">Today&#39;s Deals</a>
+                <a href="#" class="gm-nav-link">Customer Service</a>
+                <a href="#" class="gm-nav-link">Registry</a>
+                <a href="#" class="gm-nav-link">Gift Cards</a>
+                <a href="#" class="gm-nav-link">Sell</a>
+                <a href="#" class="gm-nav-link">Electronics</a>
+                <a href="#" class="gm-nav-link">Fashion</a>
+                <a href="#" class="gm-nav-link">Home</a>
+                <a href="#" class="gm-nav-link">Beauty</a>
+                <a href="#" class="gm-nav-link">Sports</a>
+                <a href="#" class="gm-nav-link">Grocery</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="gm-main">
+        <div class="gm-inner">
+            <h1 class="gm-account-welcome">Your Account</h1>
+            <section class="gm-account-sections">
+                <article class="gm-account-card">
+                    <h2>Your Orders</h2>
+                    <p>Track, return, or buy things again.</p>
+                    <a href="orders.html" style="color:#007185;font-size:0.85rem;">Go to your orders</a>
+                </article>
+                <article class="gm-account-card">
+                    <h2>Login &amp; security</h2>
+                    <p>Edit login, name, and mobile number.</p>
+                    <a href="#" style="color:#007185;font-size:0.85rem;">Manage your profile</a>
+                </article>
+                <article class="gm-account-card">
+                    <h2>Your Addresses</h2>
+                    <p>Edit addresses for orders and gifts.</p>
+                    <a href="#" style="color:#007185;font-size:0.85rem;">Manage addresses</a>
+                </article>
+                <article class="gm-account-card">
+                    <h2>Payments</h2>
+                    <p>Manage payment methods and settings.</p>
+                    <a href="#" style="color:#007185;font-size:0.85rem;">Manage payments</a>
+                </article>
+            </section>
+            <div style="margin-top:1.5rem;">
+                <button id="logout-btn" class="gm-btn-secondary" style="max-width:200px;">Sign out</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="gm-footer">
+        <div class="gm-footer-backtotop">Back to top</div>
+        <div class="gm-footer-inner">
+            <div>
+                <div class="gm-footer-col-title">Get to Know Us</div>
+                <a href="#" class="gm-footer-link">About GlobalMart</a>
+                <a href="#" class="gm-footer-link">Careers</a>
+                <a href="#" class="gm-footer-link">Press Releases</a>
+            </div>
+            <div>
+                <div class="gm-footer-col-title">Make Money with Us</div>
+                <a href="#" class="gm-footer-link">Sell products</a>
+                <a href="#" class="gm-footer-link">Become an Affiliate</a>
+                <a href="#" class="gm-footer-link">Advertise Your Products</a>
+            </div>
+            <div>
+                <div class="gm-footer-col-title">Let Us Help You</div>
+                <a href="#" class="gm-footer-link">Your Account</a>
+                <a href="#" class="gm-footer-link">Returns Centre</a>
+                <a href="#" class="gm-footer-link">Help</a>
+            </div>
+        </div>
+        <div class="gm-footer-bottom">
+            <span>© 2026 GlobalMart (GM). This is a UI clone for learning purposes.</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

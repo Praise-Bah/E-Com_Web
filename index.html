@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart (GM) - Online Shopping Clone</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+</head>
+<body class="gm-page">
+    <header class="gm-header">
+        <div class="gm-header-top">
+            <div>
+                <a href="index.html" class="gm-logo-link">
+                    <span class="gm-logo-icon">GM</span>
+                    <span class="gm-logo-text">GlobalMart</span>
+                </a>
+            </div>
+            <div class="gm-header-location">
+                <div class="gm-header-location-small">Deliver to</div>
+                <div class="gm-header-location-main">
+                    <img class="gm-icon gm-icon-sm" src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Location icon">
+                    <span>Select your address</span>
+                </div>
+            </div>
+            <form class="gm-search" action="#" method="get">
+                <select class="gm-search-category" aria-label="Search in">
+                    <option value="all">All</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="home">Home &amp; Kitchen</option>
+                    <option value="beauty">Beauty</option>
+                    <option value="sports">Sports</option>
+                </select>
+                <input class="gm-search-input" name="q" type="text" placeholder="Search GlobalMart" aria-label="Search">
+                <button class="gm-search-button" type="submit" aria-label="Search">
+                    <svg width="20" height="20" fill="white" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                    </svg>
+                </button>
+            </form>
+            <div class="gm-header-item gm-header-account" onclick="window.location.href='login.html'">
+                <span class="gm-header-item-small">Hello, sign in</span>
+                <span class="gm-header-item-main">
+                    <img class="gm-icon gm-icon-sm" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Account icon">
+                    <span>Account &amp; Lists</span>
+                </span>
+            </div>
+            <div class="gm-header-item" onclick="window.location.href='orders.html'">
+                <span class="gm-header-item-small">Returns</span>
+                <span class="gm-header-item-main">
+                    <img class="gm-icon gm-icon-sm" src="https://cdn-icons-png.flaticon.com/512/8106/8106794.png" alt="Orders icon">
+                    <span>&amp; Orders</span>
+                </span>
+            </div>
+            <a href="cart.html" class="gm-header-cart">
+                <span class="gm-cart-count">0</span>
+                <img class="gm-icon gm-icon-md" src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart icon">
+                <span class="gm-header-item-main">Cart</span>
+            </a>
+        </div>
+        <div class="gm-header-bottom">
+            <div class="gm-header-bottom-inner">
+                <a href="#" class="gm-nav-link">All</a>
+                <a href="#" class="gm-nav-link">Today&#39;s Deals</a>
+                <a href="#" class="gm-nav-link">Customer Service</a>
+                <a href="#" class="gm-nav-link">Registry</a>
+                <a href="#" class="gm-nav-link">Gift Cards</a>
+                <a href="#" class="gm-nav-link">Sell</a>
+                <a href="#" class="gm-nav-link">Electronics</a>
+                <a href="#" class="gm-nav-link">Fashion</a>
+                <a href="#" class="gm-nav-link">Home</a>
+                <a href="#" class="gm-nav-link">Beauty</a>
+                <a href="#" class="gm-nav-link">Sports</a>
+                <a href="#" class="gm-nav-link">Grocery</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="gm-main">
+        <section class="gm-home-hero">
+            <div class="gm-home-hero-overlay"></div>
+            <div class="gm-home-hero-inner">
+                <div class="gm-home-hero-card gm-home-card">
+                    <div class="gm-home-card-title">Welcome to GlobalMart</div>
+                    <p>Shop millions of products with fast delivery, secure payments, and personalized recommendations.</p>
+                    <div class="gm-home-card-footer">Sign in to see your personalized deals</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gm-home-grid">
+            <article class="gm-home-card">
+                <div class="gm-home-card-title">Top picks in electronics</div>
+                <div class="gm-home-card-img">
+                    <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=800&q=80" alt="Electronics selection">
+                </div>
+                <a href="products.html" class="gm-home-card-footer">Shop now</a>
+            </article>
+
+            <article class="gm-home-card">
+                <div class="gm-home-card-title">Refresh your wardrobe</div>
+                <div class="gm-home-card-img">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" alt="Fashion selection">
+                </div>
+                <a href="products.html" class="gm-home-card-footer">See more</a>
+            </article>
+
+            <article class="gm-home-card">
+                <div class="gm-home-card-title">Home &amp; kitchen favorites</div>
+                <div class="gm-home-card-img">
+                    <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80" alt="Home and kitchen products">
+                </div>
+                <a href="products.html" class="gm-home-card-footer">Explore now</a>
+            </article>
+
+            <article class="gm-home-card">
+                <div class="gm-home-card-title">Sign in for the best experience</div>
+                <a href="login.html" class="gm-home-card-footer">Sign in securely</a>
+            </article>
+        </section>
+
+        <section class="gm-home-row">
+            <h2 class="gm-home-row-title">Deals for you</h2>
+            <div class="gm-home-row-scroll" data-row="deals">
+                <article class="gm-home-product">
+                    <div class="gm-home-product-img">
+                        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80" alt="Laptop">
+                    </div>
+                    <div class="gm-home-product-title">Lightweight performance laptop</div>
+                    <div class="gm-home-product-price">$799.99</div>
+                </article>
+                <article class="gm-home-product">
+                    <div class="gm-home-product-img">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Headphones">
+                    </div>
+                    <div class="gm-home-product-title">Wireless noise cancelling headphones</div>
+                    <div class="gm-home-product-price">$149.99</div>
+                </article>
+                <article class="gm-home-product">
+                    <div class="gm-home-product-img">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Smart watch">
+                    </div>
+                    <div class="gm-home-product-title">Fitness smart watch with heart rate monitor</div>
+                    <div class="gm-home-product-price">$199.99</div>
+                </article>
+                <article class="gm-home-product">
+                    <div class="gm-home-product-img">
+                        <img src="https://images.unsplash.com/photo-1504274066651-8d31a536b11a?auto=format&fit=crop&w=600&q=80" alt="Camera">
+                    </div>
+                    <div class="gm-home-product-title">Mirrorless camera kit</div>
+                    <div class="gm-home-product-price">$899.99</div>
+                </article>
+            </div>
+        </section>
+
+        <section class="gm-home-row">
+            <h2 class="gm-home-row-title">Inspired by your browsing history</h2>
+            <div class="gm-home-row-scroll" data-row="history">
+                <article class="gm-home-product">
+                    <div class="gm-home-product-img">
+                        <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=600&q=80" alt="Shoes">
+                    </div>
+                    <div class="gm-home-product-title">Running sneakers</div>
+                    <div class="gm-home-product-price">$89.99</div>
+                </article>
+                <article class="gm-home-product">
+                    <div class="gm-home-product-img">
+                        <img src="https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=600&q=80" alt="Bag">
+                    </div>
+                    <div class="gm-home-product-title">Everyday backpack</div>
+                    <div class="gm-home-product-price">$59.99</div>
+                </article>
+                <article class="gm-home-product">
+                    <div class="gm-home-product-img">
+                        <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=600&q=80" alt="Shoes again">
+                    </div>
+                    <div class="gm-home-product-title">Casual sneakers</div>
+                    <div class="gm-home-product-price">$79.99</div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="gm-footer">
+        <div class="gm-footer-backtotop">Back to top</div>
+        <div class="gm-footer-inner">
+            <div>
+                <div class="gm-footer-col-title">Get to Know Us</div>
+                <a href="#" class="gm-footer-link">About GlobalMart</a>
+                <a href="#" class="gm-footer-link">Careers</a>
+                <a href="#" class="gm-footer-link">Press Releases</a>
+            </div>
+            <div>
+                <div class="gm-footer-col-title">Make Money with Us</div>
+                <a href="#" class="gm-footer-link">Sell products</a>
+                <a href="#" class="gm-footer-link">Become an Affiliate</a>
+                <a href="#" class="gm-footer-link">Advertise Your Products</a>
+            </div>
+            <div>
+                <div class="gm-footer-col-title">Let Us Help You</div>
+                <a href="#" class="gm-footer-link">Your Account</a>
+                <a href="#" class="gm-footer-link">Returns Centre</a>
+                <a href="#" class="gm-footer-link">Help</a>
+            </div>
+        </div>
+        <div class="gm-footer-bottom">
+            <span>© 2026 GlobalMart (GM). This is a UI clone for learning purposes.</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

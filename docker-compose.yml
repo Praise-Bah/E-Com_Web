@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: globalmart
+      MYSQL_USER: gm_user
+      MYSQL_PASSWORD: gm_password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  api:
+    build: ./server
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: gm_user
+      DB_PASSWORD: gm_password
+      DB_NAME: globalmart
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
