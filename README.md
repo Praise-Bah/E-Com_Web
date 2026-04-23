@@ -36,23 +36,36 @@ A full-stack Amazon-like e-commerce UI clone built with HTML, CSS, vanilla JavaS
 
 The API runs at `http://localhost:3000/api`
 
-## Deployment
+## Deployment (100% Free)
 
-### Backend (Railway)
+### Step 1: Create Free MySQL Database (TiDB Cloud)
 
-1. Go to [railway.app](https://railway.app) and sign up
-2. Click **"New Project"** → **"Deploy from GitHub repo"**
-3. Select this repository and choose the `server` folder
-4. Add a **MySQL** database from the Railway dashboard
-5. Set environment variables:
-   - `DB_HOST` = (from Railway MySQL)
-   - `DB_PORT` = (from Railway MySQL)
-   - `DB_USER` = (from Railway MySQL)
-   - `DB_PASSWORD` = (from Railway MySQL)
-   - `DB_NAME` = globalmart
-   - `JWT_SECRET` = (generate a random string)
-6. Run the SQL from `db/init.sql` in the Railway MySQL console
-7. Copy your Railway app URL (e.g., `https://your-app.railway.app`)
+1. Go to [tidbcloud.com](https://tidbcloud.com) and sign up (free)
+2. Click **"Create Cluster"** → **"Serverless"** (free tier)
+3. Choose a region and create
+4. Once ready, click **"Connect"** → **"General"**
+5. Note down: Host, Port, User, Password
+6. Go to **"SQL Editor"** and paste the contents of `db/init.sql` → Run
+
+### Step 2: Deploy Backend (Render - Free)
+
+1. Go to [render.com](https://render.com) and sign up with GitHub
+2. Click **"New"** → **"Web Service"**
+3. Connect your GitHub repo
+4. Settings:
+   - **Root Directory**: `server`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+5. Add environment variables:
+   - `DB_HOST` = (from TiDB Cloud)
+   - `DB_PORT` = (from TiDB Cloud, usually 4000)
+   - `DB_USER` = (from TiDB Cloud)
+   - `DB_PASSWORD` = (from TiDB Cloud)
+   - `DB_NAME` = `globalmart`
+   - `DB_SSL` = `true`
+   - `JWT_SECRET` = (any random string)
+6. Click **"Create Web Service"**
+7. Copy your Render URL (e.g., `https://globalmart-api.onrender.com`)
 
 ### Frontend (Netlify)
 
@@ -62,7 +75,7 @@ The API runs at `http://localhost:3000/api`
 4. Set publish directory to root (`.`)
 5. Before deploying, update `assets/js/config.js`:
    ```js
-   const API_BASE = 'https://YOUR_RAILWAY_APP.railway.app/api';
+   const API_BASE = 'https://YOUR_RENDER_APP.onrender.com/api';
    ```
 6. Deploy!
 
