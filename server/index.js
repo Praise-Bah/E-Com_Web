@@ -17,28 +17,18 @@ const JWT_SECRET = process.env.JWT_SECRET || "globalmart_secret_key_change_in_pr
 let pool;
 
 async function initDb() {
-  const dbConfig = {
-    host: process.env.DB_HOST || "localhost",
-    port: process.env.DB_PORT || 3306,
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "",
-    database: process.env.DB_NAME || "globalmart",
+  // Always use DATABASE_URL for cloud deployment (TiDB Cloud)
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL environment variable is required");
+  }
+  
+  pool = await mysql.createPool({
+    uri: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: true },
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
-  };
-
-  // Enable SSL for cloud databases (TiDB, PlanetScale, etc.)
-  if (process.env.DB_SSL === "true") {
-    dbConfig.ssl = { rejectUnauthorized: true };
-  }
-
-  // Support DATABASE_URL connection string (used by some providers)
-  if (process.env.DATABASE_URL) {
-    pool = await mysql.createPool(process.env.DATABASE_URL);
-  } else {
-    pool = await mysql.createPool(dbConfig);
-  }
+  });
 }
 
 async function getCartData(cartId) {

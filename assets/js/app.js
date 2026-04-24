@@ -1,5 +1,5 @@
-// API_BASE is set in config.js, fallback for safety
-const API_BASE = window.API_BASE || "http://localhost:3000/api";
+// Use API_BASE from config.js
+const apiBase = window.API_BASE || "http://localhost:3000/api";
 
 // Format price in Cameroon Francs (Frs)
 function formatPrice(amount) {
@@ -67,7 +67,7 @@ async function fetchWithAuth(path, options = {}) {
     headers["Content-Type"] = "application/json";
     options.body = JSON.stringify(options.body);
   }
-  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  const res = await fetch(`${apiBase}${path}`, { ...options, headers });
   return res;
 }
 
@@ -162,7 +162,7 @@ function getCartId() {
 
 async function syncCartToServer(cart) {
   try {
-    await fetch(`${API_BASE}/cart/sync`, {
+    await fetch(`${apiBase}/cart/sync`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cartId: getCartId(), items: cart })
@@ -200,7 +200,7 @@ function getCurrentPage() {
 }
 
 async function fetchJson(path) {
-  const url = `${API_BASE}${path}`;
+  const url = `${apiBase}${path}`;
   const res = await fetch(url);
   if (!res.ok) {
     throw new Error(`Request failed: ${res.status}`);
@@ -800,7 +800,7 @@ function initLoginPage() {
     if (btn) btn.disabled = true;
 
     try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
+      const res = await fetch(`${apiBase}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -870,7 +870,7 @@ function initSignupPage() {
     if (btn) btn.disabled = true;
 
     try {
-      const res = await fetch(`${API_BASE}/auth/register`, {
+      const res = await fetch(`${apiBase}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password })
