@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart | Checkout</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <style>
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            .checkout-container { grid-template-columns: 1fr; }
+        }
+        .checkout-section {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .checkout-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .address-card {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .address-card:hover { border-color: #ff9900; }
+        .address-card.selected {
+            border-color: #ff9900;
+            background: #fffbf5;
+        }
+        .address-card input { margin-right: 0.5rem; }
+        .add-address-form { display: none; margin-top: 1rem; }
+        .add-address-form.show { display: block; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .form-group { margin-bottom: 0.75rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.25rem; font-size: 0.9rem; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+        }
+        .order-summary { position: sticky; top: 1rem; }
+        .order-item { display: flex; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #eee; }
+        .order-item img { width: 60px; height: 60px; object-fit: contain; }
+        .order-item-info { flex: 1; }
+        .order-totals { margin-top: 1rem; }
+        .order-totals div { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        .order-totals .total { font-size: 1.2rem; font-weight: 700; border-top: 1px solid #ddd; padding-top: 0.5rem; }
+        .place-order-btn {
+            width: 100%; padding: 0.75rem; background: #ff9900; border: none; border-radius: 4px;
+            font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 1rem;
+        }
+        .place-order-btn:hover { background: #e68a00; }
+        .place-order-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .checkout-message { padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
+        .checkout-message.error { background: #fdf0f0; color: #c40000; }
+        .checkout-message.success { background: #e7f4e4; color: #1e7b1e; }
+    </style>
+</head>
+<body class="gm-page">
+    <header class="gm-header">
+        <div class="gm-header-top">
+            <div>
+                <a href="index.html" class="gm-logo-link">
+                    <span class="gm-logo-icon">GM</span>
+                    <span class="gm-logo-text">GlobalMart</span>
+                </a>
+            </div>
+            <div style="flex:1;text-align:center;font-size:1.5rem;font-weight:700;">Checkout</div>
+            <div style="font-size:0.9rem;color:#007185;">
+                <span id="item-count">0</span> items
+            </div>
+        </div>
+    </header>
+
+    <main class="gm-main">
+        <div class="gm-inner">
+            <div id="checkout-message" class="checkout-message" style="display:none;"></div>
+            
+            <div id="checkout-login" style="display:none;text-align:center;padding:2rem;">
+                <h2>Please sign in to continue</h2>
+                <p style="margin:1rem 0;">You need to be logged in to checkout.</p>
+                <a href="login.html" class="gm-btn-primary" style="display:inline-block;padding:0.75rem 2rem;text-decoration:none;">Sign In</a>
+            </div>
+
+            <div id="checkout-empty" style="display:none;text-align:center;padding:2rem;">
+                <h2>Your cart is empty</h2>
+                <p style="margin:1rem 0;">Add some items to your cart before checking out.</p>
+                <a href="products.html" class="gm-btn-primary" style="display:inline-block;padding:0.75rem 2rem;text-decoration:none;">Continue Shopping</a>
+            </div>
+
+            <div class="checkout-container" id="checkout-content" style="display:none;">
+                <div class="checkout-main">
+                    <!-- Shipping Address -->
+                    <div class="checkout-section">
+                        <h2>1. Shipping Address</h2>
+                        <div id="addresses-list">
+                            <p>Loading addresses...</p>
+                        </div>
+                        <button type="button" id="add-address-toggle" style="color:#007185;background:none;border:none;cursor:pointer;font-size:0.95rem;margin-top:0.5rem;">
+                            + Add a new address
+                        </button>
+                        <div class="add-address-form" id="add-address-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="addr-name">Full Name</label>
+                                    <input type="text" id="addr-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addr-phone">Phone</label>
+                                    <input type="tel" id="addr-phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addr-street">Street Address</label>
+                                <input type="text" id="addr-street" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="addr-city">City</label>
+                                    <input type="text" id="addr-city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addr-state">State/Region</label>
+                                    <input type="text" id="addr-state">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="addr-zip">ZIP/Postal Code</label>
+                                    <input type="text" id="addr-zip">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addr-country">Country</label>
+                                    <input type="text" id="addr-country" value="Cameroon">
+                                </div>
+                            </div>
+                            <div style="margin-top:0.75rem;">
+                                <button type="button" id="save-address-btn" class="gm-btn-primary" style="padding:0.5rem 1.5rem;">Save Address</button>
+                                <button type="button" id="cancel-address-btn" style="padding:0.5rem 1rem;margin-left:0.5rem;background:#fff;border:1px solid #ccc;border-radius:4px;cursor:pointer;">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="checkout-section">
+                        <h2>2. Payment Method</h2>
+                        <div class="address-card selected">
+                            <label>
+                                <input type="radio" name="payment" value="cod" checked>
+                                <strong>Cash on Delivery (COD)</strong>
+                            </label>
+                            <p style="margin:0.5rem 0 0 1.5rem;font-size:0.9rem;color:#555;">Pay when your order arrives</p>
+                        </div>
+                        <div class="address-card">
+                            <label>
+                                <input type="radio" name="payment" value="mobile">
+                                <strong>Mobile Money</strong>
+                            </label>
+                            <p style="margin:0.5rem 0 0 1.5rem;font-size:0.9rem;color:#555;">MTN MoMo / Orange Money (Coming Soon)</p>
+                        </div>
+                    </div>
+
+                    <!-- Review Items -->
+                    <div class="checkout-section">
+                        <h2>3. Review Items</h2>
+                        <div id="checkout-items">
+                            <!-- Items will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary Sidebar -->
+                <div class="order-summary checkout-section">
+                    <h2>Order Summary</h2>
+                    <div class="order-totals">
+                        <div>
+                            <span>Items (<span id="summary-count">0</span>):</span>
+                            <span id="summary-subtotal">Frs 0</span>
+                        </div>
+                        <div>
+                            <span>Shipping:</span>
+                            <span id="summary-shipping">Frs 0</span>
+                        </div>
+                        <div class="total">
+                            <span>Order Total:</span>
+                            <span id="summary-total">Frs 0</span>
+                        </div>
+                    </div>
+                    <button class="place-order-btn" id="place-order-btn">Place Your Order</button>
+                    <p style="font-size:0.8rem;color:#555;margin-top:1rem;text-align:center;">
+                        By placing your order, you agree to GlobalMart's terms and conditions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/checkout.js"></script>
+</body>
+</html>

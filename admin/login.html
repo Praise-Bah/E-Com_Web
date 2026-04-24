@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart Admin | Login</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <style>
+        .admin-login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #232f3e, #37475a);
+        }
+        .admin-login-box {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        .admin-login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .admin-login-logo .logo-icon {
+            display: inline-block;
+            background: #ff9900;
+            color: #232f3e;
+            font-weight: 700;
+            font-size: 1.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        .admin-login-logo h1 {
+            margin-top: 0.5rem;
+            font-size: 1.3rem;
+            color: #232f3e;
+        }
+        .admin-login-form label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+        .admin-login-form input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+        }
+        .admin-login-form input:focus {
+            border-color: #ff9900;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255,153,0,0.2);
+        }
+        .admin-login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #ff9900;
+            color: #232f3e;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .admin-login-btn:hover {
+            background: #e68a00;
+        }
+        .admin-login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .admin-login-error {
+            background: #fdf0f0;
+            color: #c40000;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        .admin-back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #007185;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-login-box">
+            <div class="admin-login-logo">
+                <span class="logo-icon">GM</span>
+                <h1>Admin Portal</h1>
+            </div>
+            <div class="admin-login-error" id="error-msg"></div>
+            <form class="admin-login-form" id="admin-login-form">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="admin@example.com">
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter password">
+                
+                <button type="submit" class="admin-login-btn">Sign In</button>
+            </form>
+            <a href="../index.html" class="admin-back-link">← Back to Store</a>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script>
+        const API_BASE = window.API_BASE || "http://localhost:3000/api";
+
+        document.getElementById("admin-login-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const errorMsg = document.getElementById("error-msg");
+            const btn = e.target.querySelector("button");
+
+            errorMsg.style.display = "none";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${API_BASE}/auth/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.error || "Login failed");
+                }
+
+                // Check if user is admin by trying to access admin endpoint
+                const checkRes = await fetch(`${API_BASE}/admin/stats`, {
+                    headers: { "Authorization": `Bearer ${data.token}` }
+                });
+
+                if (!checkRes.ok) {
+                    throw new Error("Access denied. Admin privileges required.");
+                }
+
+                localStorage.setItem("gm_admin_token", data.token);
+                localStorage.setItem("gm_admin_user", JSON.stringify(data.user));
+                window.location.href = "index.html";
+            } catch (err) {
+                errorMsg.textContent = err.message;
+                errorMsg.style.display = "block";
+                btn.disabled = false;
+            }
+        });
+
+        // Redirect if already logged in as admin
+        const token = localStorage.getItem("gm_admin_token");
+        if (token) {
+            fetch(`${API_BASE}/admin/stats`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            }).then(res => {
+                if (res.ok) window.location.href = "index.html";
+            });
+        }
+    </script>
+</body>
+</html>

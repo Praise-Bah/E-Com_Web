@@ -1,6 +1,32 @@
 // API_BASE is set in config.js, fallback for safety
 const API_BASE = window.API_BASE || "http://localhost:3000/api";
 
+// Format price in Cameroon Francs (Frs)
+function formatPrice(amount) {
+  const num = Number(amount);
+  return `Frs ${num.toLocaleString("en-US")}`;
+}
+
+// Recently Viewed Products
+function getRecentlyViewed() {
+  const data = localStorage.getItem("gm_recently_viewed");
+  return data ? JSON.parse(data) : [];
+}
+
+function addToRecentlyViewed(product) {
+  let viewed = getRecentlyViewed();
+  viewed = viewed.filter(p => p.id !== product.id);
+  viewed.unshift({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image_url: product.image_url,
+    category: product.category
+  });
+  if (viewed.length > 10) viewed = viewed.slice(0, 10);
+  localStorage.setItem("gm_recently_viewed", JSON.stringify(viewed));
+}
+
 function getAuthToken() {
   return localStorage.getItem("gm_token");
 }
@@ -185,17 +211,27 @@ async function fetchJson(path) {
 function initHomePage() {
   const dealsRow = document.querySelector('.gm-home-row-scroll[data-row="deals"]');
   const historyRow = document.querySelector('.gm-home-row-scroll[data-row="history"]');
-  if (!dealsRow && !historyRow) return;
 
-  fetchJson("/products")
+  // Load deals
+  fetchJson("/products?deals=true")
     .then((products) => {
       if (!Array.isArray(products)) return;
-      if (dealsRow) renderHomeRow(dealsRow, products.slice(0, 4));
-      if (historyRow) renderHomeRow(historyRow, products.slice(3));
+      if (dealsRow) renderHomeRow(dealsRow, products.slice(0, 6));
     })
-    .catch(() => {
-      // keep static fallback content on error
-    });
+    .catch(() => {});
+
+  // Show recently viewed products
+  const recentlyViewed = getRecentlyViewed();
+  if (historyRow && recentlyViewed.length > 0) {
+    renderHomeRow(historyRow, recentlyViewed);
+  } else if (historyRow) {
+    // Fallback to recommended products if no history
+    fetchJson("/products")
+      .then((products) => {
+        if (Array.isArray(products)) renderHomeRow(historyRow, products.slice(0, 6));
+      })
+      .catch(() => {});
+  }
 }
 
 function renderHomeRow(container, products) {
@@ -224,7 +260,7 @@ function renderHomeRow(container, products) {
 
     const price = document.createElement("div");
     price.className = "gm-home-product-price";
-    price.textContent = `$${Number(p.price).toFixed(2)}`;
+    price.textContent = formatPrice(p.price);
 
     item.appendChild(imgWrap);
     item.appendChild(title);
@@ -278,7 +314,18 @@ function renderProductsGrid(products) {
 
     const price = document.createElement("div");
     price.className = "gm-product-card-price";
-    price.textContent = `$${Number(p.price).toFixed(2)}`;
+    price.textContent = formatPrice(p.price);
+
+    const stock = document.createElement("div");
+    stock.style.fontSize = "0.8rem";
+    stock.style.marginTop = "0.25rem";
+    if (p.stock > 0) {
+      stock.style.color = p.stock <= 5 ? "#b12704" : "#007600";
+      stock.textContent = p.stock <= 5 ? `Only ${p.stock} left in stock` : "In Stock";
+    } else {
+      stock.style.color = "#b12704";
+      stock.textContent = "Out of Stock";
+    }
 
     const link = document.createElement("a");
     link.href = `product.html?id=${encodeURIComponent(p.id)}`;
@@ -291,11 +338,14 @@ function renderProductsGrid(products) {
     card.appendChild(title);
     card.appendChild(stars);
     card.appendChild(price);
+    card.appendChild(stock);
     card.appendChild(link);
 
     grid.appendChild(card);
   });
 }
+
+let allProducts = [];
 
 async function initProductsPage() {
   const mainSection = document.querySelector(".gm-products-main");
@@ -303,12 +353,14 @@ async function initProductsPage() {
 
   const params = new URLSearchParams(window.location.search);
   const q = params.get("q") || "";
-   const category = params.get("category") || "";
+  const category = params.get("category") || "";
+  const deals = params.get("deals") || "";
 
   const resultsText = mainSection.querySelector("p");
   if (resultsText) {
     let label = "All products";
-    if (q) label = `Results for <strong>"${q}"</strong>`;
+    if (deals === "true") label = `<strong>Today's Deals</strong>`;
+    else if (q) label = `Results for <strong>"${q}"</strong>`;
     if (category) label += ` in <strong>${category}</strong>`;
     resultsText.innerHTML = label;
   }
@@ -320,10 +372,12 @@ async function initProductsPage() {
     const qs = [];
     if (q) qs.push(`q=${encodeURIComponent(q)}`);
     if (category) qs.push(`category=${encodeURIComponent(category)}`);
+    if (deals === "true") qs.push("deals=true");
     if (qs.length) path += `?${qs.join("&")}`;
 
-    const products = await fetchJson(path);
-    renderProductsGrid(products);
+    allProducts = await fetchJson(path);
+    renderProductsGrid(allProducts);
+    initSortAndFilter();
   } catch (err) {
     const grid = document.querySelector(".gm-products-grid");
     if (grid) {
@@ -334,6 +388,63 @@ async function initProductsPage() {
       grid.appendChild(error);
     }
   }
+}
+
+function initSortAndFilter() {
+  const sortSelect = document.getElementById("sort-select");
+  const priceMin = document.getElementById("price-min");
+  const priceMax = document.getElementById("price-max");
+  const applyBtn = document.getElementById("apply-price-filter");
+  const quickFilters = document.querySelectorAll(".price-quick");
+
+  function applyFiltersAndSort() {
+    let filtered = [...allProducts];
+    
+    // Price filter
+    const min = priceMin ? Number(priceMin.value) || 0 : 0;
+    const max = priceMax ? Number(priceMax.value) || Infinity : Infinity;
+    if (min > 0 || max < Infinity) {
+      filtered = filtered.filter(p => p.price >= min && p.price <= max);
+    }
+
+    // Sort
+    const sortVal = sortSelect ? sortSelect.value : "default";
+    switch (sortVal) {
+      case "price-low":
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case "name-az":
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "name-za":
+        filtered.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+    }
+
+    renderProductsGrid(filtered);
+  }
+
+  if (sortSelect) {
+    sortSelect.addEventListener("change", applyFiltersAndSort);
+  }
+
+  if (applyBtn) {
+    applyBtn.addEventListener("click", applyFiltersAndSort);
+  }
+
+  quickFilters.forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const min = link.dataset.min || "";
+      const max = link.dataset.max || "";
+      if (priceMin) priceMin.value = min;
+      if (priceMax) priceMax.value = max;
+      applyFiltersAndSort();
+    });
+  });
 }
 
 function initCartPage() {
@@ -351,7 +462,7 @@ function initCartPage() {
       const p = document.createElement("p");
       p.textContent = "Your cart is empty.";
       itemsContainer.appendChild(p);
-      summary.innerHTML = "<p>Subtotal (0 items): <strong>$0.00</strong></p>";
+      summary.innerHTML = "<p>Subtotal (0 items): <strong>Frs 0</strong></p>";
       return;
     }
 
@@ -380,7 +491,7 @@ function initCartPage() {
       price.style.fontSize = "0.95rem";
       price.style.fontWeight = "700";
       price.style.marginTop = "0.25rem";
-      price.textContent = `$${item.price.toFixed(2)}`;
+      price.textContent = formatPrice(item.price);
 
       const controls = document.createElement("div");
       controls.style.marginTop = "0.5rem";
@@ -400,7 +511,7 @@ function initCartPage() {
       totalItems += item.qty;
     });
 
-    summary.innerHTML = `<p>Subtotal (${totalItems} items): <strong>$${subtotal.toFixed(2)}</strong></p><button class="gm-btn-primary">Proceed to checkout</button>`;
+    summary.innerHTML = `<p>Subtotal (${totalItems} items): <strong>${formatPrice(subtotal)}</strong></p><button class="gm-btn-primary" onclick="window.location.href='checkout.html'">Proceed to checkout</button>`;
 
     itemsContainer.querySelectorAll(".gm-cart-delete").forEach((link) => {
       link.addEventListener("click", (e) => {
@@ -468,7 +579,7 @@ async function initProductDetailPage() {
 
     const priceMain = document.querySelector(".gm-product-buy-price");
     if (priceMain) {
-      priceMain.textContent = `$${Number(product.price).toFixed(2)}`;
+      priceMain.textContent = formatPrice(product.price);
     }
 
     const aboutList = document.querySelector(".gm-product-about-list");
@@ -507,12 +618,158 @@ async function initProductDetailPage() {
         syncCartToServer(cart);
       });
     }
+    // Track recently viewed
+    addToRecentlyViewed(product);
+    
+    // Load and display reviews
+    loadProductReviews(id);
+    initReviewForm(id);
+    
   } catch (err) {
     const info = document.querySelector(".gm-product-info");
     if (info) {
       info.innerHTML = "<p>Failed to load product. Please try again later.</p>";
     }
   }
+}
+
+async function loadProductReviews(productId) {
+  const reviewsList = document.getElementById("reviews-list");
+  const avgRatingEl = document.getElementById("avg-rating");
+  const avgStarsEl = document.getElementById("avg-stars");
+  const reviewCountEl = document.getElementById("review-count");
+
+  if (!reviewsList) return;
+
+  try {
+    const data = await fetchJson(`/products/${productId}/reviews`);
+    
+    // Update summary
+    if (avgRatingEl) avgRatingEl.textContent = data.avgRating || "--";
+    if (avgStarsEl) {
+      const rating = Math.round(data.avgRating || 0);
+      avgStarsEl.textContent = "★".repeat(rating) + "☆".repeat(5 - rating);
+    }
+    if (reviewCountEl) reviewCountEl.textContent = `${data.reviewCount} review${data.reviewCount !== 1 ? 's' : ''}`;
+
+    // Render reviews list
+    if (!data.reviews || data.reviews.length === 0) {
+      reviewsList.innerHTML = '<p style="color:#555;">No reviews yet. Be the first to review this product!</p>';
+      return;
+    }
+
+    reviewsList.innerHTML = data.reviews.map(r => {
+      const stars = "★".repeat(r.rating) + "☆".repeat(5 - r.rating);
+      const date = new Date(r.created_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      return `
+        <div style="border-bottom:1px solid #eee;padding:1rem 0;">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+            <span style="color:#ff9900;">${stars}</span>
+            <strong>${r.user_name}</strong>
+          </div>
+          <div style="font-size:0.8rem;color:#555;margin-bottom:0.5rem;">Reviewed on ${date}</div>
+          ${r.comment ? `<p style="margin:0;">${r.comment}</p>` : ''}
+        </div>
+      `;
+    }).join("");
+  } catch (err) {
+    reviewsList.innerHTML = '<p style="color:#c40000;">Failed to load reviews.</p>';
+  }
+}
+
+function initReviewForm(productId) {
+  const form = document.getElementById("review-form");
+  const loginPrompt = document.getElementById("review-login-prompt");
+  const starPicker = document.getElementById("star-picker");
+  const ratingInput = document.getElementById("review-rating");
+  const messageEl = document.getElementById("review-message");
+
+  if (!form || !loginPrompt) return;
+
+  // Show form or login prompt based on auth status
+  if (isLoggedIn()) {
+    form.style.display = "block";
+    loginPrompt.style.display = "none";
+  } else {
+    form.style.display = "none";
+    loginPrompt.style.display = "block";
+  }
+
+  // Star picker functionality
+  if (starPicker) {
+    const stars = starPicker.querySelectorAll(".star-pick");
+    stars.forEach(star => {
+      star.addEventListener("click", () => {
+        const rating = Number(star.dataset.rating);
+        ratingInput.value = rating;
+        stars.forEach((s, i) => {
+          s.textContent = i < rating ? "★" : "☆";
+          s.style.color = i < rating ? "#ff9900" : "#ccc";
+        });
+      });
+      star.addEventListener("mouseenter", () => {
+        const rating = Number(star.dataset.rating);
+        stars.forEach((s, i) => {
+          s.textContent = i < rating ? "★" : "☆";
+        });
+      });
+      star.addEventListener("mouseleave", () => {
+        const currentRating = Number(ratingInput.value);
+        stars.forEach((s, i) => {
+          s.textContent = i < currentRating ? "★" : "☆";
+          s.style.color = i < currentRating ? "#ff9900" : "#ccc";
+        });
+      });
+    });
+  }
+
+  // Form submission
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const rating = Number(ratingInput.value);
+    const comment = document.getElementById("review-comment").value.trim();
+
+    if (rating < 1 || rating > 5) {
+      messageEl.textContent = "Please select a rating.";
+      messageEl.style.color = "#c40000";
+      return;
+    }
+
+    const btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    messageEl.textContent = "Submitting...";
+    messageEl.style.color = "#555";
+
+    try {
+      const res = await fetchWithAuth(`/products/${productId}/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rating, comment })
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to submit review");
+      }
+
+      messageEl.textContent = "Review submitted!";
+      messageEl.style.color = "#007600";
+      form.reset();
+      ratingInput.value = "0";
+      starPicker.querySelectorAll(".star-pick").forEach(s => {
+        s.textContent = "☆";
+        s.style.color = "#ccc";
+      });
+
+      // Reload reviews
+      loadProductReviews(productId);
+    } catch (err) {
+      messageEl.textContent = err.message;
+      messageEl.style.color = "#c40000";
+    } finally {
+      btn.disabled = false;
+    }
+  });
 }
 
 function initLoginPage() {
@@ -716,7 +973,7 @@ async function initOrdersPage() {
         </div>
         <div>
           <div style="font-size:0.75rem;color:#555;">TOTAL</div>
-          <div>$${Number(order.total).toFixed(2)}</div>
+          <div>${formatPrice(order.total)}</div>
         </div>
         <div>
           <div style="font-size:0.75rem;color:#555;">STATUS</div>
@@ -740,19 +997,153 @@ async function initOrdersPage() {
             <img src="${item.image_url}" alt="${item.name}" style="width:60px;height:60px;object-fit:contain;">
             <div>
               <div style="font-weight:500;">${item.name}</div>
-              <div style="font-size:0.8rem;color:#555;">Qty: ${item.quantity} × $${Number(item.price).toFixed(2)}</div>
+              <div style="font-size:0.8rem;color:#555;">Qty: ${item.quantity} × ${formatPrice(item.price)}</div>
             </div>
           `;
           itemsDiv.appendChild(itemRow);
         });
       }
 
+      const actionsDiv = document.createElement("div");
+      actionsDiv.style.marginTop = "1rem";
+      actionsDiv.style.paddingTop = "0.75rem";
+      actionsDiv.style.borderTop = "1px solid #eee";
+      actionsDiv.innerHTML = `<a href="order-detail.html?id=${order.id}" style="color:#007185;font-size:0.9rem;">View Order Details</a>`;
+
       card.appendChild(header);
       card.appendChild(itemsDiv);
+      card.appendChild(actionsDiv);
       ordersList.appendChild(card);
     });
   } catch (err) {
     ordersList.innerHTML = `<p style="color:#d13212;">Failed to load orders. Please try again.</p>`;
+  }
+}
+
+// Wishlist Functions
+async function initWishlistPage() {
+  const container = document.getElementById("wishlist-container");
+  if (!container) return;
+
+  if (!isLoggedIn()) {
+    container.innerHTML = '<p>Please <a href="login.html" style="color:#007185;">sign in</a> to view your wishlist.</p>';
+    return;
+  }
+
+  try {
+    const res = await fetchWithAuth("/wishlist");
+    if (!res.ok) throw new Error("Failed to fetch wishlist");
+    
+    const { items } = await res.json();
+    
+    if (!items || items.length === 0) {
+      container.innerHTML = `
+        <div style="text-align:center;padding:2rem;">
+          <p style="font-size:1.2rem;margin-bottom:1rem;">Your wishlist is empty</p>
+          <a href="products.html" class="gm-btn-primary" style="display:inline-block;padding:0.5rem 1.5rem;text-decoration:none;">Start Shopping</a>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = `<p style="margin-bottom:1rem;">${items.length} item${items.length !== 1 ? 's' : ''} in your wishlist</p>`;
+    
+    const grid = document.createElement("div");
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 1fr))";
+    grid.style.gap = "1rem";
+
+    items.forEach(item => {
+      const card = document.createElement("div");
+      card.style.background = "#fff";
+      card.style.padding = "1rem";
+      card.style.borderRadius = "8px";
+      card.style.boxShadow = "0 1px 3px rgba(0,0,0,0.1)";
+
+      card.innerHTML = `
+        <a href="product.html?id=${item.product_id}">
+          <img src="${item.image_url}" alt="${item.name}" style="width:100%;height:150px;object-fit:contain;">
+        </a>
+        <h3 style="font-size:0.95rem;margin:0.5rem 0;"><a href="product.html?id=${item.product_id}" style="color:#007185;text-decoration:none;">${item.name}</a></h3>
+        <div style="font-size:0.85rem;color:#555;">${item.category}</div>
+        <div style="font-weight:700;margin:0.5rem 0;">${formatPrice(item.price)}</div>
+        <div style="font-size:0.8rem;color:${item.stock > 0 ? '#007600' : '#b12704'};margin-bottom:0.5rem;">
+          ${item.stock > 0 ? (item.stock <= 5 ? `Only ${item.stock} left` : 'In Stock') : 'Out of Stock'}
+        </div>
+        <button class="gm-btn-primary add-to-cart-btn" data-id="${item.product_id}" data-name="${item.name}" data-price="${item.price}" data-image="${item.image_url}" style="width:100%;padding:0.4rem;font-size:0.85rem;margin-bottom:0.5rem;">Add to Cart</button>
+        <button class="remove-wishlist-btn" data-id="${item.product_id}" style="width:100%;padding:0.4rem;font-size:0.85rem;background:#fff;border:1px solid #ccc;border-radius:4px;cursor:pointer;">Remove</button>
+      `;
+      grid.appendChild(card);
+    });
+
+    container.appendChild(grid);
+
+    // Add to cart buttons
+    grid.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const cart = getCart();
+        const id = Number(btn.dataset.id);
+        const existing = cart.find(item => item.id === id);
+        if (existing) {
+          existing.qty += 1;
+        } else {
+          cart.push({
+            id,
+            name: btn.dataset.name,
+            price: Number(btn.dataset.price),
+            image_url: btn.dataset.image,
+            qty: 1
+          });
+        }
+        saveCart(cart);
+        updateCartCount();
+        syncCartToServer(cart);
+        btn.textContent = "Added!";
+        setTimeout(() => { btn.textContent = "Add to Cart"; }, 1500);
+      });
+    });
+
+    // Remove from wishlist buttons
+    grid.querySelectorAll(".remove-wishlist-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const productId = btn.dataset.id;
+        try {
+          await fetchWithAuth(`/wishlist/${productId}`, { method: "DELETE" });
+          initWishlistPage();
+        } catch (err) {
+          alert("Failed to remove item");
+        }
+      });
+    });
+
+  } catch (err) {
+    container.innerHTML = '<p style="color:#c40000;">Failed to load wishlist. Please try again.</p>';
+  }
+}
+
+async function addToWishlist(productId) {
+  if (!isLoggedIn()) {
+    window.location.href = "login.html";
+    return false;
+  }
+  try {
+    const res = await fetchWithAuth("/wishlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId })
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function removeFromWishlist(productId) {
+  try {
+    const res = await fetchWithAuth(`/wishlist/${productId}`, { method: "DELETE" });
+    return res.ok;
+  } catch {
+    return false;
   }
 }
 
@@ -778,6 +1169,8 @@ document.addEventListener("DOMContentLoaded", function () {
     initAccountPage();
   } else if (page === "orders.html") {
     initOrdersPage();
+  } else if (page === "wishlist.html") {
+    initWishlistPage();
   }
 
   updateCartCount();

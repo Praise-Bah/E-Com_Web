@@ -60,18 +60,18 @@
         </div>
         <div class="gm-header-bottom">
             <div class="gm-header-bottom-inner">
-                <a href="#" class="gm-nav-link">All</a>
-                <a href="#" class="gm-nav-link">Today&#39;s Deals</a>
-                <a href="#" class="gm-nav-link">Customer Service</a>
-                <a href="#" class="gm-nav-link">Registry</a>
-                <a href="#" class="gm-nav-link">Gift Cards</a>
-                <a href="#" class="gm-nav-link">Sell</a>
-                <a href="#" class="gm-nav-link">Electronics</a>
-                <a href="#" class="gm-nav-link">Fashion</a>
-                <a href="#" class="gm-nav-link">Home</a>
-                <a href="#" class="gm-nav-link">Beauty</a>
-                <a href="#" class="gm-nav-link">Sports</a>
-                <a href="#" class="gm-nav-link">Grocery</a>
+                <a href="products.html" class="gm-nav-link">All</a>
+                <a href="products.html?deals=true" class="gm-nav-link">Today's Deals</a>
+                <a href="customer-service.html" class="gm-nav-link">Customer Service</a>
+                <a href="registry.html" class="gm-nav-link">Registry</a>
+                <a href="gift-cards.html" class="gm-nav-link">Gift Cards</a>
+                <a href="sell.html" class="gm-nav-link">Sell</a>
+                <a href="products.html?category=electronics" class="gm-nav-link">Electronics</a>
+                <a href="products.html?category=fashion" class="gm-nav-link">Fashion</a>
+                <a href="products.html?category=home-kitchen" class="gm-nav-link">Home</a>
+                <a href="products.html?category=beauty" class="gm-nav-link">Beauty</a>
+                <a href="products.html?category=sports" class="gm-nav-link">Sports</a>
+                <a href="products.html?category=grocery" class="gm-nav-link">Grocery</a>
             </div>
         </div>
     </header>
@@ -84,16 +84,35 @@
             <div class="gm-products-layout">
                 <aside class="gm-products-sidebar">
                     <h2>Filters</h2>
+                    
+                    <p><strong>Sort By</strong></p>
+                    <select id="sort-select" style="width:100%;padding:0.4rem;margin-bottom:1rem;border-radius:4px;border:1px solid #ccc;">
+                        <option value="default">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name-az">Name: A to Z</option>
+                        <option value="name-za">Name: Z to A</option>
+                    </select>
+                    
                     <p><strong>Department</strong></p>
-                    <ul class="gm-filter-categories">
-                        <li><a href="#">All departments</a></li>
+                    <ul class="gm-filter-categories" id="category-filters">
+                        <li><a href="products.html">All departments</a></li>
                     </ul>
-                    <p style="margin-top:0.75rem"><strong>Price</strong></p>
-                    <ul>
-                        <li><a href="#">Under $50</a></li>
-                        <li><a href="#">$50 to $100</a></li>
-                        <li><a href="#">$100 to $500</a></li>
-                        <li><a href="#">$500 &amp; above</a></li>
+                    
+                    <p style="margin-top:0.75rem"><strong>Price Range</strong></p>
+                    <div style="margin-bottom:0.5rem;">
+                        <input type="number" id="price-min" placeholder="Min" style="width:45%;padding:0.3rem;border:1px solid #ccc;border-radius:4px;" min="0">
+                        <span>-</span>
+                        <input type="number" id="price-max" placeholder="Max" style="width:45%;padding:0.3rem;border:1px solid #ccc;border-radius:4px;" min="0">
+                    </div>
+                    <button id="apply-price-filter" style="width:100%;padding:0.4rem;background:#f0c14b;border:1px solid #a88734;border-radius:4px;cursor:pointer;">Apply</button>
+                    
+                    <p style="margin-top:1rem"><strong>Quick Filters</strong></p>
+                    <ul style="list-style:none;padding:0;">
+                        <li><a href="#" class="price-quick" data-max="10000" style="color:#007185;font-size:0.9rem;">Under Frs 10,000</a></li>
+                        <li><a href="#" class="price-quick" data-min="10000" data-max="50000" style="color:#007185;font-size:0.9rem;">Frs 10,000 - 50,000</a></li>
+                        <li><a href="#" class="price-quick" data-min="50000" data-max="100000" style="color:#007185;font-size:0.9rem;">Frs 50,000 - 100,000</a></li>
+                        <li><a href="#" class="price-quick" data-min="100000" style="color:#007185;font-size:0.9rem;">Frs 100,000 & above</a></li>
                     </ul>
                 </aside>
                 <section class="gm-products-main">

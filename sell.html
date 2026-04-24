@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalMart | Login</title>
+    <title>GlobalMart | Sell on GlobalMart</title>
     <link rel="stylesheet" href="assets/css/global.css">
 </head>
 <body class="gm-page">
@@ -25,11 +25,6 @@
             <form class="gm-search" action="#" method="get">
                 <select class="gm-search-category" aria-label="Search in">
                     <option value="all">All</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="fashion">Fashion</option>
-                    <option value="home">Home &amp; Kitchen</option>
-                    <option value="beauty">Beauty</option>
-                    <option value="sports">Sports</option>
                 </select>
                 <input class="gm-search-input" name="q" type="text" placeholder="Search GlobalMart" aria-label="Search">
                 <button class="gm-search-button" type="submit" aria-label="Search">
@@ -77,50 +72,65 @@
     </header>
 
     <main class="gm-main">
-        <div class="gm-auth">
-            <h1>Sign-In</h1>
-            <div class="gm-auth-error" style="display:none;"></div>
-            <form id="login-form">
-                <label for="email">Email</label>
-                <input id="email" type="email" placeholder="you@example.com" required>
+        <div class="gm-inner" style="max-width:800px;margin:2rem auto;padding:1rem;">
+            <h1 style="margin-bottom:1.5rem;text-align:center;">Sell on GlobalMart</h1>
+            
+            <section style="background:#fff;padding:2rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);text-align:center;margin-bottom:1.5rem;">
+                <div style="font-size:4rem;margin-bottom:1rem;">🏪</div>
+                <h2 style="font-size:1.5rem;margin-bottom:1rem;">Start Selling Today</h2>
+                <p style="color:#555;margin-bottom:1.5rem;">Join thousands of sellers on GlobalMart and reach millions of customers in Cameroon and beyond.</p>
+                
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:2rem 0;">
+                    <div style="padding:1rem;">
+                        <div style="font-size:2.5rem;color:#ff9900;font-weight:700;">1M+</div>
+                        <div style="font-size:0.9rem;color:#555;">Active Customers</div>
+                    </div>
+                    <div style="padding:1rem;">
+                        <div style="font-size:2.5rem;color:#ff9900;font-weight:700;">5K+</div>
+                        <div style="font-size:0.9rem;color:#555;">Sellers</div>
+                    </div>
+                    <div style="padding:1rem;">
+                        <div style="font-size:2.5rem;color:#ff9900;font-weight:700;">50+</div>
+                        <div style="font-size:0.9rem;color:#555;">Categories</div>
+                    </div>
+                </div>
+            </section>
 
-                <label for="password">Password</label>
-                <input id="password" type="password" placeholder="Your password" required>
-
-                <button type="submit">Sign in</button>
-            </form>
-            <p style="font-size:0.75rem;margin-top:0.75rem;">By signing in, you agree to GlobalMart's Conditions of Use and Privacy Notice.</p>
-            <div class="gm-auth-divider">
-                <span>New to GlobalMart?</span>
-            </div>
-            <a href="signup.html" class="gm-auth-link">Create your GlobalMart account</a>
+            <section style="background:#fff;padding:2rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+                <h2 style="font-size:1.2rem;margin-bottom:1.5rem;">How It Works</h2>
+                <div style="display:flex;flex-direction:column;gap:1rem;">
+                    <div style="display:flex;align-items:center;gap:1rem;">
+                        <div style="width:40px;height:40px;background:#232f3e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">1</div>
+                        <div>
+                            <h3 style="font-size:1rem;margin:0;">Register Your Account</h3>
+                            <p style="font-size:0.85rem;color:#555;margin:0;">Create a seller account with your business details</p>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:1rem;">
+                        <div style="width:40px;height:40px;background:#232f3e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">2</div>
+                        <div>
+                            <h3 style="font-size:1rem;margin:0;">List Your Products</h3>
+                            <p style="font-size:0.85rem;color:#555;margin:0;">Add your products with photos, descriptions, and prices</p>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:1rem;">
+                        <div style="width:40px;height:40px;background:#232f3e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">3</div>
+                        <div>
+                            <h3 style="font-size:1rem;margin:0;">Start Selling</h3>
+                            <p style="font-size:0.85rem;color:#555;margin:0;">Receive orders and grow your business</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="margin-top:2rem;text-align:center;color:#007185;">Seller registration coming soon!</p>
+            </section>
         </div>
     </main>
 
     <footer class="gm-footer">
         <div class="gm-footer-backtotop">Back to top</div>
-        <div class="gm-footer-inner">
-            <div>
-                <div class="gm-footer-col-title">Get to Know Us</div>
-                <a href="#" class="gm-footer-link">About GlobalMart</a>
-                <a href="#" class="gm-footer-link">Careers</a>
-                <a href="#" class="gm-footer-link">Press Releases</a>
-            </div>
-            <div>
-                <div class="gm-footer-col-title">Make Money with Us</div>
-                <a href="#" class="gm-footer-link">Sell products</a>
-                <a href="#" class="gm-footer-link">Become an Affiliate</a>
-                <a href="#" class="gm-footer-link">Advertise Your Products</a>
-            </div>
-            <div>
-                <div class="gm-footer-col-title">Let Us Help You</div>
-                <a href="#" class="gm-footer-link">Your Account</a>
-                <a href="#" class="gm-footer-link">Returns Centre</a>
-                <a href="#" class="gm-footer-link">Help</a>
-            </div>
-        </div>
         <div class="gm-footer-bottom">
-            <span>© 2026 GlobalMart (GM). This is a UI clone for learning purposes.</span>
+            <p>&copy; 2024 GlobalMart Clone. For educational purposes only.</p>
         </div>
     </footer>
 

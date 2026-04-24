@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart Admin | Products</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-body">
+    <nav class="admin-nav">
+        <div class="admin-nav-brand">
+            <span class="admin-logo">GM</span>
+            <span>Admin</span>
+        </div>
+        <ul class="admin-nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="products.html" class="active">Products</a></li>
+            <li><a href="orders.html">Orders</a></li>
+        </ul>
+        <div class="admin-nav-user">
+            <span id="admin-name">Admin</span>
+            <button id="logout-btn" class="admin-logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Products</h1>
+            <button class="admin-btn admin-btn-primary" id="add-product-btn">+ Add Product</button>
+        </div>
+
+        <div class="admin-table-container">
+            <table class="admin-table" id="products-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Deal</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="products-tbody">
+                    <tr><td colspan="7" style="text-align:center;">Loading products...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div class="admin-modal" id="product-modal" style="display:none;">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="modal-title">Add Product</h2>
+                <button class="admin-modal-close" id="modal-close">&times;</button>
+            </div>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                
+                <div class="form-group">
+                    <label for="product-name">Product Name *</label>
+                    <input type="text" id="product-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-description">Description</label>
+                    <textarea id="product-description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-price">Price (Frs) *</label>
+                        <input type="number" id="product-price" required min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-stock">Stock *</label>
+                        <input type="number" id="product-stock" required min="0" value="0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-category">Category *</label>
+                    <select id="product-category" required>
+                        <option value="">Select category...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-image">Image URL *</label>
+                    <input type="url" id="product-image" required placeholder="https://...">
+                    <small>Enter a direct link to the product image</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="product-deal">
+                        <span>Mark as Today's Deal</span>
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="admin-btn" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>

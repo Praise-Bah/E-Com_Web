@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart Admin | Dashboard</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-body">
+    <nav class="admin-nav">
+        <div class="admin-nav-brand">
+            <span class="admin-logo">GM</span>
+            <span>Admin</span>
+        </div>
+        <ul class="admin-nav-links">
+            <li><a href="index.html" class="active">Dashboard</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="orders.html">Orders</a></li>
+        </ul>
+        <div class="admin-nav-user">
+            <span id="admin-name">Admin</span>
+            <button id="logout-btn" class="admin-logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Dashboard</h1>
+            <p>Welcome back! Here's an overview of your store.</p>
+        </div>
+
+        <div class="admin-stats">
+            <div class="admin-stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stat-products">--</div>
+                    <div class="stat-label">Products</div>
+                </div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="stat-icon">🛒</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stat-orders">--</div>
+                    <div class="stat-label">Orders</div>
+                </div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stat-users">--</div>
+                    <div class="stat-label">Customers</div>
+                </div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stat-revenue">--</div>
+                    <div class="stat-label">Revenue</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-grid">
+                <a href="products.html?action=add" class="action-card">
+                    <span class="action-icon">➕</span>
+                    <span>Add New Product</span>
+                </a>
+                <a href="orders.html" class="action-card">
+                    <span class="action-icon">📋</span>
+                    <span>View Orders</span>
+                </a>
+                <a href="products.html" class="action-card">
+                    <span class="action-icon">📊</span>
+                    <span>Manage Stock</span>
+                </a>
+                <a href="../index.html" target="_blank" class="action-card">
+                    <span class="action-icon">🏪</span>
+                    <span>View Store</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>

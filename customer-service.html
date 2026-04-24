@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalMart | Login</title>
+    <title>GlobalMart | Customer Service</title>
     <link rel="stylesheet" href="assets/css/global.css">
 </head>
 <body class="gm-page">
@@ -25,11 +25,6 @@
             <form class="gm-search" action="#" method="get">
                 <select class="gm-search-category" aria-label="Search in">
                     <option value="all">All</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="fashion">Fashion</option>
-                    <option value="home">Home &amp; Kitchen</option>
-                    <option value="beauty">Beauty</option>
-                    <option value="sports">Sports</option>
                 </select>
                 <input class="gm-search-input" name="q" type="text" placeholder="Search GlobalMart" aria-label="Search">
                 <button class="gm-search-button" type="submit" aria-label="Search">
@@ -77,50 +72,49 @@
     </header>
 
     <main class="gm-main">
-        <div class="gm-auth">
-            <h1>Sign-In</h1>
-            <div class="gm-auth-error" style="display:none;"></div>
-            <form id="login-form">
-                <label for="email">Email</label>
-                <input id="email" type="email" placeholder="you@example.com" required>
+        <div class="gm-inner" style="max-width:800px;margin:2rem auto;padding:1rem;">
+            <h1 style="margin-bottom:1.5rem;">Customer Service</h1>
+            
+            <section style="background:#fff;padding:1.5rem;border-radius:8px;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+                <h2 style="font-size:1.2rem;margin-bottom:1rem;">How can we help you?</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+                    <div style="padding:1rem;border:1px solid #ddd;border-radius:8px;text-align:center;">
+                        <div style="font-size:2rem;margin-bottom:0.5rem;">📦</div>
+                        <h3 style="font-size:1rem;margin-bottom:0.25rem;">Track Your Order</h3>
+                        <p style="font-size:0.85rem;color:#555;">Check delivery status</p>
+                    </div>
+                    <div style="padding:1rem;border:1px solid #ddd;border-radius:8px;text-align:center;">
+                        <div style="font-size:2rem;margin-bottom:0.5rem;">↩️</div>
+                        <h3 style="font-size:1rem;margin-bottom:0.25rem;">Returns & Refunds</h3>
+                        <p style="font-size:0.85rem;color:#555;">Start a return</p>
+                    </div>
+                    <div style="padding:1rem;border:1px solid #ddd;border-radius:8px;text-align:center;">
+                        <div style="font-size:2rem;margin-bottom:0.5rem;">💳</div>
+                        <h3 style="font-size:1rem;margin-bottom:0.25rem;">Payment Issues</h3>
+                        <p style="font-size:0.85rem;color:#555;">Manage payments</p>
+                    </div>
+                    <div style="padding:1rem;border:1px solid #ddd;border-radius:8px;text-align:center;">
+                        <div style="font-size:2rem;margin-bottom:0.5rem;">🔒</div>
+                        <h3 style="font-size:1rem;margin-bottom:0.25rem;">Account Security</h3>
+                        <p style="font-size:0.85rem;color:#555;">Protect your account</p>
+                    </div>
+                </div>
+            </section>
 
-                <label for="password">Password</label>
-                <input id="password" type="password" placeholder="Your password" required>
-
-                <button type="submit">Sign in</button>
-            </form>
-            <p style="font-size:0.75rem;margin-top:0.75rem;">By signing in, you agree to GlobalMart's Conditions of Use and Privacy Notice.</p>
-            <div class="gm-auth-divider">
-                <span>New to GlobalMart?</span>
-            </div>
-            <a href="signup.html" class="gm-auth-link">Create your GlobalMart account</a>
+            <section style="background:#fff;padding:1.5rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+                <h2 style="font-size:1.2rem;margin-bottom:1rem;">Contact Us</h2>
+                <p style="margin-bottom:1rem;color:#555;">Need more help? Reach out to our support team.</p>
+                <p><strong>Email:</strong> support@globalmart.com</p>
+                <p><strong>Phone:</strong> +237 6XX XXX XXX</p>
+                <p><strong>Hours:</strong> Monday - Friday, 8AM - 6PM WAT</p>
+            </section>
         </div>
     </main>
 
     <footer class="gm-footer">
         <div class="gm-footer-backtotop">Back to top</div>
-        <div class="gm-footer-inner">
-            <div>
-                <div class="gm-footer-col-title">Get to Know Us</div>
-                <a href="#" class="gm-footer-link">About GlobalMart</a>
-                <a href="#" class="gm-footer-link">Careers</a>
-                <a href="#" class="gm-footer-link">Press Releases</a>
-            </div>
-            <div>
-                <div class="gm-footer-col-title">Make Money with Us</div>
-                <a href="#" class="gm-footer-link">Sell products</a>
-                <a href="#" class="gm-footer-link">Become an Affiliate</a>
-                <a href="#" class="gm-footer-link">Advertise Your Products</a>
-            </div>
-            <div>
-                <div class="gm-footer-col-title">Let Us Help You</div>
-                <a href="#" class="gm-footer-link">Your Account</a>
-                <a href="#" class="gm-footer-link">Returns Centre</a>
-                <a href="#" class="gm-footer-link">Help</a>
-            </div>
-        </div>
         <div class="gm-footer-bottom">
-            <span>© 2026 GlobalMart (GM). This is a UI clone for learning purposes.</span>
+            <p>&copy; 2024 GlobalMart Clone. For educational purposes only.</p>
         </div>
     </footer>
 

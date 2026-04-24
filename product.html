@@ -60,18 +60,18 @@
         </div>
         <div class="gm-header-bottom">
             <div class="gm-header-bottom-inner">
-                <a href="#" class="gm-nav-link">All</a>
-                <a href="#" class="gm-nav-link">Today&#39;s Deals</a>
-                <a href="#" class="gm-nav-link">Customer Service</a>
-                <a href="#" class="gm-nav-link">Registry</a>
-                <a href="#" class="gm-nav-link">Gift Cards</a>
-                <a href="#" class="gm-nav-link">Sell</a>
-                <a href="#" class="gm-nav-link">Electronics</a>
-                <a href="#" class="gm-nav-link">Fashion</a>
-                <a href="#" class="gm-nav-link">Home</a>
-                <a href="#" class="gm-nav-link">Beauty</a>
-                <a href="#" class="gm-nav-link">Sports</a>
-                <a href="#" class="gm-nav-link">Grocery</a>
+                <a href="products.html" class="gm-nav-link">All</a>
+                <a href="products.html?deals=true" class="gm-nav-link">Today's Deals</a>
+                <a href="customer-service.html" class="gm-nav-link">Customer Service</a>
+                <a href="registry.html" class="gm-nav-link">Registry</a>
+                <a href="gift-cards.html" class="gm-nav-link">Gift Cards</a>
+                <a href="sell.html" class="gm-nav-link">Sell</a>
+                <a href="products.html?category=electronics" class="gm-nav-link">Electronics</a>
+                <a href="products.html?category=fashion" class="gm-nav-link">Fashion</a>
+                <a href="products.html?category=home-kitchen" class="gm-nav-link">Home</a>
+                <a href="products.html?category=beauty" class="gm-nav-link">Beauty</a>
+                <a href="products.html?category=sports" class="gm-nav-link">Sports</a>
+                <a href="products.html?category=grocery" class="gm-nav-link">Grocery</a>
             </div>
         </div>
     </header>
@@ -119,6 +119,51 @@
                     <button class="gm-btn-secondary">Buy Now</button>
                     <p style="font-size:0.8rem;margin-top:0.75rem;">Ships from and sold by GlobalMart.</p>
                 </aside>
+            </section>
+
+            <!-- Reviews Section -->
+            <section class="gm-reviews-section" id="reviews-section" style="margin-top:2rem;">
+                <h2 style="font-size:1.3rem;margin-bottom:1rem;border-bottom:1px solid #ddd;padding-bottom:0.5rem;">Customer Reviews</h2>
+                
+                <div class="gm-reviews-summary" id="reviews-summary" style="display:flex;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                    <div style="text-align:center;">
+                        <div id="avg-rating" style="font-size:2.5rem;font-weight:700;color:#ff9900;">--</div>
+                        <div id="avg-stars" style="color:#ff9900;font-size:1.2rem;">☆☆☆☆☆</div>
+                        <div id="review-count" style="font-size:0.9rem;color:#555;">0 reviews</div>
+                    </div>
+                </div>
+
+                <!-- Write Review Form -->
+                <div id="review-form-container" style="background:#f9f9f9;padding:1rem;border-radius:8px;margin-bottom:1.5rem;">
+                    <h3 style="font-size:1rem;margin-bottom:0.75rem;">Write a Review</h3>
+                    <div id="review-login-prompt" style="display:none;">
+                        <p style="color:#555;">Please <a href="login.html" style="color:#007185;">sign in</a> to write a review.</p>
+                    </div>
+                    <form id="review-form" style="display:none;">
+                        <div style="margin-bottom:0.75rem;">
+                            <label style="font-weight:600;display:block;margin-bottom:0.25rem;">Rating</label>
+                            <div id="star-picker" style="font-size:1.5rem;cursor:pointer;">
+                                <span data-rating="1" class="star-pick">☆</span>
+                                <span data-rating="2" class="star-pick">☆</span>
+                                <span data-rating="3" class="star-pick">☆</span>
+                                <span data-rating="4" class="star-pick">☆</span>
+                                <span data-rating="5" class="star-pick">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating" value="0">
+                        </div>
+                        <div style="margin-bottom:0.75rem;">
+                            <label for="review-comment" style="font-weight:600;display:block;margin-bottom:0.25rem;">Your Review (optional)</label>
+                            <textarea id="review-comment" rows="3" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;resize:vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="gm-btn-primary" style="padding:0.5rem 1.5rem;">Submit Review</button>
+                        <span id="review-message" style="margin-left:1rem;font-size:0.9rem;"></span>
+                    </form>
+                </div>
+
+                <!-- Reviews List -->
+                <div id="reviews-list">
+                    <p style="color:#555;">Loading reviews...</p>
+                </div>
             </section>
         </div>
     </main>

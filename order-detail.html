@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart | Order Details</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <style>
+        .order-detail-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .order-header {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .order-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .order-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        .order-meta-item {
+            color: #555;
+        }
+        .order-meta-item strong {
+            display: block;
+            color: #232f3e;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-processing { background: #cce5ff; color: #004085; }
+        .status-shipped { background: #d4edda; color: #155724; }
+        .status-delivered { background: #c3e6cb; color: #0d5524; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+        .order-section {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .order-section h2 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        .order-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .order-item:last-child { border-bottom: none; }
+        .order-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        .order-item-info { flex: 1; }
+        .order-item-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        .order-item-info h3 a {
+            color: #007185;
+            text-decoration: none;
+        }
+        .order-item-price {
+            font-weight: 700;
+            text-align: right;
+        }
+        .order-totals {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+        .order-totals div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .order-totals .total {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #007185;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="gm-page">
+    <header class="gm-header">
+        <div class="gm-header-top">
+            <div>
+                <a href="index.html" class="gm-logo-link">
+                    <span class="gm-logo-icon">GM</span>
+                    <span class="gm-logo-text">GlobalMart</span>
+                </a>
+            </div>
+            <div class="gm-header-location">
+                <div class="gm-header-location-small">Deliver to</div>
+                <div class="gm-header-location-main">
+                    <img class="gm-icon gm-icon-sm" src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Location icon">
+                    <span>Select your address</span>
+                </div>
+            </div>
+            <form class="gm-search" action="products.html" method="get">
+                <select class="gm-search-category" aria-label="Search in">
+                    <option value="all">All</option>
+                </select>
+                <input class="gm-search-input" name="q" type="text" placeholder="Search GlobalMart" aria-label="Search">
+                <button class="gm-search-button" type="submit" aria-label="Search">
+                    <svg width="20" height="20" fill="white" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                    </svg>
+                </button>
+            </form>
+            <div class="gm-header-item gm-header-account" onclick="window.location.href='account.html'">
+                <span class="gm-header-item-small">Hello</span>
+                <span class="gm-header-item-main">
+                    <img class="gm-icon gm-icon-sm" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Account icon">
+                    <span>Account</span>
+                </span>
+            </div>
+            <a href="cart.html" class="gm-header-cart">
+                <span class="gm-cart-count">0</span>
+                <img class="gm-icon gm-icon-md" src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart icon">
+                <span class="gm-header-item-main">Cart</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="gm-main">
+        <div class="gm-inner order-detail-container">
+            <a href="orders.html" class="back-link">← Back to Your Orders</a>
+            
+            <div id="order-content">
+                <p>Loading order details...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="gm-footer">
+        <div class="gm-footer-backtotop">Back to top</div>
+        <div class="gm-footer-bottom">
+            <p>&copy; 2024 GlobalMart Clone. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        const API_BASE = window.API_BASE || "http://localhost:3000/api";
+
+        function formatPrice(amount) {
+            return `Frs ${Number(amount).toLocaleString("en-US")}`;
+        }
+
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+        }
+
+        async function loadOrderDetail() {
+            const container = document.getElementById("order-content");
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get("id");
+
+            if (!orderId) {
+                container.innerHTML = '<p>Order not specified. <a href="orders.html">View your orders</a></p>';
+                return;
+            }
+
+            const token = localStorage.getItem("gm_token");
+            if (!token) {
+                container.innerHTML = '<p>Please <a href="login.html">sign in</a> to view order details.</p>';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/orders/${orderId}`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                if (!res.ok) {
+                    if (res.status === 404) {
+                        container.innerHTML = '<p>Order not found. <a href="orders.html">View your orders</a></p>';
+                    } else {
+                        throw new Error("Failed to load order");
+                    }
+                    return;
+                }
+
+                const { order } = await res.json();
+                
+                let itemsSubtotal = 0;
+                order.items.forEach(item => {
+                    itemsSubtotal += item.price * item.quantity;
+                });
+                const shipping = order.total - itemsSubtotal;
+
+                container.innerHTML = `
+                    <div class="order-header">
+                        <h1>Order #${order.id}</h1>
+                        <span class="status-badge status-${order.status}">${order.status}</span>
+                        <div class="order-meta">
+                            <div class="order-meta-item">
+                                <strong>Order Date</strong>
+                                ${formatDate(order.created_at)}
+                            </div>
+                            <div class="order-meta-item">
+                                <strong>Order Total</strong>
+                                ${formatPrice(order.total)}
+                            </div>
+                        </div>
+                    </div>
+
+                    ${order.shipping_address ? `
+                    <div class="order-section">
+                        <h2>Shipping Address</h2>
+                        <p>${order.shipping_address}</p>
+                    </div>
+                    ` : ''}
+
+                    <div class="order-section">
+                        <h2>Order Items</h2>
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <img src="${item.image_url}" alt="${item.name}">
+                                <div class="order-item-info">
+                                    <h3><a href="product.html?id=${item.product_id}">${item.name}</a></h3>
+                                    <p style="font-size:0.9rem;color:#555;">Qty: ${item.quantity}</p>
+                                    <p style="font-size:0.9rem;">Price: ${formatPrice(item.price)} each</p>
+                                </div>
+                                <div class="order-item-price">
+                                    ${formatPrice(item.price * item.quantity)}
+                                </div>
+                            </div>
+                        `).join("")}
+
+                        <div class="order-totals">
+                            <div>
+                                <span>Items Subtotal:</span>
+                                <span>${formatPrice(itemsSubtotal)}</span>
+                            </div>
+                            <div>
+                                <span>Shipping:</span>
+                                <span>${shipping > 0 ? formatPrice(shipping) : 'FREE'}</span>
+                            </div>
+                            <div class="total">
+                                <span>Order Total:</span>
+                                <span>${formatPrice(order.total)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-section" style="text-align:center;">
+                        <p style="margin-bottom:1rem;">Need help with this order?</p>
+                        <a href="customer-service.html" style="color:#007185;">Contact Customer Service</a>
+                    </div>
+                `;
+
+            } catch (err) {
+                container.innerHTML = '<p style="color:#c40000;">Failed to load order details. Please try again.</p>';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadOrderDetail);
+    </script>
+</body>
+</html>

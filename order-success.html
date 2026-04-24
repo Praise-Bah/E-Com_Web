@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart | Order Confirmed</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            text-align: center;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #e7f4e4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 3rem;
+        }
+        .success-title {
+            font-size: 1.5rem;
+            color: #1e7b1e;
+            margin-bottom: 0.5rem;
+        }
+        .order-number {
+            font-size: 1.1rem;
+            color: #232f3e;
+            margin-bottom: 1.5rem;
+        }
+        .success-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .success-actions a {
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background: #ff9900;
+            color: #232f3e;
+        }
+        .btn-secondary {
+            background: #fff;
+            border: 1px solid #ccc;
+            color: #232f3e;
+        }
+    </style>
+</head>
+<body class="gm-page">
+    <header class="gm-header">
+        <div class="gm-header-top">
+            <div>
+                <a href="index.html" class="gm-logo-link">
+                    <span class="gm-logo-icon">GM</span>
+                    <span class="gm-logo-text">GlobalMart</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="gm-main">
+        <div class="gm-inner">
+            <div class="success-container">
+                <div class="success-icon">✓</div>
+                <h1 class="success-title">Order Placed Successfully!</h1>
+                <p class="order-number">Order #<span id="order-id">--</span></p>
+                <p style="color:#555;margin-bottom:1rem;">
+                    Thank you for your purchase! We've received your order and will begin processing it shortly.
+                </p>
+                <p style="color:#555;">
+                    You will receive an email confirmation with your order details and tracking information once your order ships.
+                </p>
+                <div class="success-actions">
+                    <a href="orders.html" class="btn-primary">View Your Orders</a>
+                    <a href="products.html" class="btn-secondary">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="gm-footer">
+        <div class="gm-footer-bottom">
+            <p>&copy; 2024 GlobalMart Clone. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get("orderId");
+            if (orderId) {
+                document.getElementById("order-id").textContent = orderId;
+            }
+        });
+    </script>
+</body>
+</html>

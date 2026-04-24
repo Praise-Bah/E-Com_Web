@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart Admin | Orders</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-body">
+    <nav class="admin-nav">
+        <div class="admin-nav-brand">
+            <span class="admin-logo">GM</span>
+            <span>Admin</span>
+        </div>
+        <ul class="admin-nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="orders.html" class="active">Orders</a></li>
+        </ul>
+        <div class="admin-nav-user">
+            <span id="admin-name">Admin</span>
+            <button id="logout-btn" class="admin-logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Orders</h1>
+        </div>
+
+        <div class="admin-table-container">
+            <table class="admin-table" id="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                    <tr><td colspan="7" style="text-align:center;">Loading orders...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Order Details Modal -->
+    <div class="admin-modal" id="order-modal" style="display:none;">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2>Order Details</h2>
+                <button class="admin-modal-close" id="modal-close">&times;</button>
+            </div>
+            <div id="order-details">
+                <!-- Order details will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>
