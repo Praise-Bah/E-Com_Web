@@ -210,5 +210,8 @@ INSERT INTO products (category_id, name, description, price, image_url, stock, i
 
 -- Seed admin user (password: Admin123)
 INSERT INTO users (name, email, password_hash, role) VALUES
-  ('Admin', 'admin1@gmail.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye1U6f/VLR3bYLH8S9VuFnPpN4YLVPw2q', 'admin')
-ON DUPLICATE KEY UPDATE name = VALUES(name);
+  ('Admin', 'admin1@gmail.com', '$2b$10$k1CNvj5GxfYMex6h6h6hLuJp7TwHOmtf/ycISmlrJsvNGZytKFrwq', 'admin')
+ON DUPLICATE KEY UPDATE
+  name = VALUES(name),
+  password_hash = VALUES(password_hash),
+  role = VALUES(role);
